@@ -115,7 +115,7 @@ export async function execute(interaction: Interaction) {
 			case 'vindertech':
 				let description = interaction.fields.getTextInputValue('description');
 				let platform = interaction.fields.getTextInputValue('platform');
-				if (!['pc', 'switch', 'ps4', 'xbox', 'mobile'].includes(platform.toLowerCase()))
+				if (!['pc', 'switch', 'ps', 'xbox', 'mobile'].includes(platform.toLowerCase()))
 					return interaction.reply({
 						content: '**<:FNIT_Stop:857617083185758208> Piattaforma non valida**',
 						ephemeral: true,
@@ -144,7 +144,7 @@ export async function execute(interaction: Interaction) {
 					'807985160703180850'
 				)) as TextChannel;
 				nuoveRichiesteChannel.send({
-					//content: '<@720221658501087312> <@659513332218331155>',
+					content: '<@720221658501087312> <@659513332218331155>',
 					embeds: [
 						new EmbedBuilder({
 							description: '[`Nuova richiesta di supporto per voi`](' + richesteUtentiMessage.url + ')',
