@@ -4,8 +4,9 @@
 	"description": "Discord Bot for Fortnite ITA server",
 	"main": "index.js",
 	"scripts": {
-		"start": "tsc && node dist/index.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node dist/index.js",
+		"build": "tsc",
+		"test": "tsc && npm run start"
 	},
 	"author": "Mettius",
 	"type": "module",
