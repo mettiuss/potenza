@@ -64,28 +64,23 @@ export function createUserEmbed(
 				);
 			return embed;
 		case 'close':
-			embed
-				.setTitle('**Richiesta Supporto Chiusa**')
-				.setDescription(
-					`Hey <@${user.id}>, la tua richiesta è stata accettata e per questo abbiamo aperto un ticket. Un membro del team Vindertech ti risponderà il prima possibile.`
-				)
-				.addFields(
-					{
-						name: 'Staffer',
-						value: `<@${interaction.user.id}> | ID: ` + '`' + interaction.user.id + '`',
-						inline: false,
-					},
-					{
-						name: 'Motivazione',
-						value: reason!,
-						inline: false,
-					},
-					{
-						name: '**Bacheca Trello**',
-						value: 'Puoi consultare i problemi già noti ad Epic Games [cliccando qui](https://trello.com/b/zXyhyOIs/fortnite-italia-community-issues).',
-						inline: false,
-					}
-				);
+			embed.setTitle('**Richiesta Supporto Chiusa**').addFields(
+				{
+					name: 'Staffer',
+					value: `<@${interaction.user.id}> | ID: ` + '`' + interaction.user.id + '`',
+					inline: false,
+				},
+				{
+					name: 'Motivazione',
+					value: reason!,
+					inline: false,
+				},
+				{
+					name: '**Bacheca Trello**',
+					value: 'Puoi consultare i problemi già noti ad Epic Games [cliccando qui](https://trello.com/b/zXyhyOIs/fortnite-italia-community-issues).',
+					inline: false,
+				}
+			);
 			return embed;
 	}
 }
