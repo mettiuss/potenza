@@ -144,7 +144,6 @@ export async function execute(interaction: Interaction) {
 					'807985160703180850'
 				)) as TextChannel;
 				nuoveRichiesteChannel.send({
-					content: '<@720221658501087312> <@659513332218331155>',
 					embeds: [
 						new EmbedBuilder({
 							description: '[`Nuova richiesta di supporto per voi`](' + richesteUtentiMessage.url + ')',
