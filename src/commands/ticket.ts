@@ -5,7 +5,6 @@ import {
 	EmbedBuilder,
 	Guild,
 	GuildChannelCreateOptions,
-	GuildMember,
 	PermissionsBitField,
 	TextChannel,
 	User,
