@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import { readdirSync } from 'fs';
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord.js';
+import { REST, Routes } from 'discord.js';
 
 export default async function slashInit() {
 	const commands = [];
@@ -12,9 +12,16 @@ export default async function slashInit() {
 		command.data.permissions = command.permissions;
 		commands.push(command.data);
 	}
-	const rest = new REST({ version: '10' }).setToken(process.env.TOKEN!);
+	const rest = new REST().setToken(process.env.TOKEN!);
 
-	rest.put(Routes.applicationGuildCommands(process.env.APPID!, process.env.GUILD_ID!), {
-		body: commands,
-	}).catch(console.error);
+	try {
+		await rest.put(Routes.applicationGuildCommands(process.env.APPID!, process.env.GUILD_ID!), {
+			body: commands,
+		});
+		console.log('Slash commands refreshed');
+	} catch (e) {
+		console.log(e);
+	}
 }
+
+await slashInit();

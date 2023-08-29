@@ -1,15 +1,15 @@
 let embed1 = new EmbedBuilder()
-	.setColor('#ffffff')
-	.setTitle('Benvenuto nel server ufficiale di lingua italiana di Fortnite!')
-	.setDescription(
-		'Gioca a Fortnite ora! https://www.epicgames.com/fortnite/it/home.\nScopri tutte le nuove notizie di Fortnite su <#454264582622412801> o https://www.epicgames.com/fortnite/it/news.'
-	);
+.setColor('#ffffff')
+.setTitle('Benvenuto nel server ufficiale di lingua italiana di Fortnite!')
+.setDescription(
+'Gioca a Fortnite ora! https://www.epicgames.com/fortnite/it/home.\nScopri tutte le nuove notizie di Fortnite su <#454264582622412801> o https://www.epicgames.com/fortnite/it/news.'
+);
 
 let embed2 = new EmbedBuilder()
-	.setColor('#ffffff')
-	.setTitle('Collegamenti delle Comunità')
-	.setDescription(
-		`Questo server è principalmente di lingua italiana. Di seguito sono riportati i link a tutti i server ufficiali di Fortnite in Discord, in diverse lingue:
+.setColor('#ffffff')
+.setTitle('Collegamenti delle Comunità')
+.setDescription(
+`Questo server è principalmente di lingua italiana. Di seguito sono riportati i link a tutti i server ufficiali di Fortnite in Discord, in diverse lingue:
 
 -   Official Fortnite (Inglese): http://epic.gm/discorden
 -   Oficial Fortnite Hispanohablante (Spagnolo): http://epic.gm/discordes
@@ -29,13 +29,13 @@ let embed2 = new EmbedBuilder()
 -   Instagram: https://www.instagram.com/fortniteita/?hl=it
 -   Twitter: https://twitter.com/FortniteGame
 -   TikTok: https://www.tiktok.com/share/user/6646882771904528390`
-	);
+    );
 
 let embed3 = new EmbedBuilder()
-	.setColor('#ffffff')
-	.setTitle('Descrizione dei Ruoli')
-	.setDescription(
-		`<@&454262403819896833>: Cummunity manager di EpicGames, si occupano di gestire i server ufficiali e di organizzare eventi.
+.setColor('#ffffff')
+.setTitle('Descrizione dei Ruoli')
+.setDescription(
+`<@&454262403819896833>: Community manager di EpicGames, si occupano di gestire i server ufficiali e di organizzare eventi.
 
 <@&454262524955852800>: Ruolo più importante nel team di moderazione. Hanno l'ultima parola su tutto e sono responsabili per il corretto funzionamento del server.
 
@@ -44,10 +44,10 @@ let embed3 = new EmbedBuilder()
 <@&659513332218331155>: Si occupano, ove possibile, del supporto interno della community, ma non hanno nessun potere di moderazione. Per candidarsi al ruolo di Vindertech visitare il canale <#683363509966471197>.
 
 <@&976447945970970694>: Membri dello staff di altre Community ufficiali di Fortnite. Non hanno poteri di moderazione.`
-	);
+);
 
 let embed4 = new EmbedBuilder().setColor('#ffffff').setTitle('Descrizione delle Categorie')
-	.setDescription(`- Annunci: Categoria dedicata a tutte le notizie riguardanti il gioco di Fortnite o eventuali novità riguardanti questo server.
+.setDescription(`- Annunci: Categoria dedicata a tutte le notizie riguardanti il gioco di Fortnite o eventuali novità riguardanti questo server.
 
 -   Informazioni: Tutte le informazioni utili per poterti orientare e ambientare al meglio all'interno di questo server.
 -   <#602075899549974539>: Canale dedicato all'auto-assegnazione dei ruoli per sbloccare canali e funzionalità extra nel server.
@@ -69,8 +69,8 @@ let embed5 = new EmbedBuilder().setColor('#ffffff').setTitle('Supporto')
 Se il problema dovesse riguardare il server discord, ad esempio per segnalare un utente che infrange il regolamento, inviare un messaggio in dm al bot <@599162525166206996>.`);
 
 let embed6 = new EmbedBuilder()
-	.setColor('#ffffff')
-	.setTitle('Invito al Discord Official Fortnite Italia')
-	.setDescription(
-		'Vuoi invitare altri giocatori al Discord ufficiale della comunità di lingua italiana? Usa questo link: https://discord.gg/fortniteita'
-	);
+.setColor('#ffffff')
+.setTitle('Invito al Discord Official Fortnite Italia')
+.setDescription(
+'Vuoi invitare altri giocatori al Discord ufficiale della comunità di lingua italiana? Usa questo link: https://discord.gg/fortniteita'
+);

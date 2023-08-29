@@ -5,11 +5,13 @@ import {
 	EmbedBuilder,
 	Guild,
 	GuildChannelCreateOptions,
+	GuildMember,
 	PermissionsBitField,
 	TextChannel,
 	User,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { formatCode, formatUser } from '../utils.js';
 
 export function getUserChannel(guild: Guild, userID: string) {
 	return guild.channels.cache.filter(
@@ -187,10 +189,26 @@ export const data = new SlashCommandBuilder()
 			.addStringOption((input) =>
 				input.setName('motivazione').setDescription('La motivazione di questa azione').setRequired(true)
 			)
+	)
+	.addSubcommand((subcommand) =>
+		subcommand
+			.setName('block')
+			.setDescription("Blocca un utente dall'inviare richieste vindertech")
+			.addUserOption((input) =>
+				input.setName('utente').setDescription('Utente a cui si riferisce questa azione').setRequired(true)
+			)
+	)
+	.addSubcommand((subcommand) =>
+		subcommand
+			.setName('unblock')
+			.setDescription("Sblocca un utente dall'inviare richieste vindertech")
+			.addUserOption((input) =>
+				input.setName('utente').setDescription('Utente a cui si riferisce questa azione').setRequired(true)
+			)
 	);
 export async function execute(interaction: CommandInteraction) {
 	const user = interaction.options.getUser('utente')!;
-	let userEmbed, logEmbed;
+	let userEmbed, logEmbed, doc;
 
 	switch ((interaction.options as any).getSubcommand()) {
 		case 'open':
@@ -216,9 +234,7 @@ export async function execute(interaction: CommandInteraction) {
 			logEmbed = createLogEmbed(interaction, user, 'close', reason);
 			let userChannel = getUserChannel(interaction.guild!, user.id);
 			if (userChannel.size === 0) {
-				return await interaction.reply(
-					`L'utente <@${user.id}> (` + '`' + user.id + '`) non possiede nessun ticket aperto.'
-				);
+				return await interaction.reply(`L'utente ${formatUser(user.id)} non possiede nessun ticket aperto.`);
 			} else {
 				await userChannel.at(0)?.delete();
 				try {
@@ -227,8 +243,29 @@ export async function execute(interaction: CommandInteraction) {
 				const logChannel = (await interaction.client.channels.fetch('721809334178414614')) as TextChannel;
 				await logChannel.send({ embeds: [logEmbed] });
 				return await interaction.reply(
-					`**Ticket chiuso per <@${user.id}> (` + '`' + user.id + '`) con motivazione: `' + reason + '`**'
+					`**Ticket chiuso per ${formatUser(user.id)} con motivazione: ${formatCode(reason)}**`
 				);
 			}
+		case 'block':
+			doc = await interaction.client.mongo.findOne({ _id: user.id });
+			if (doc)
+				return await interaction.reply(
+					`**L'utente ${formatUser(user.id)} è già stato bloccato da <@${doc.staff}> il <t:${Math.floor(
+						doc.at.getTime() / 1000
+					)}:f>**`
+				);
+			if (!(interaction.member instanceof GuildMember))
+				return await interaction.reply(`C'è stato un errore, riprova`);
+			await interaction.client.mongo.insertOne({
+				_id: user.id,
+				staff: interaction.member.id,
+				at: new Date(),
+			});
+			return await interaction.reply(`**L'utente ${formatUser(user.id)} è stato bloccato**`);
+		case 'unblock':
+			doc = await interaction.client.mongo.findOne({ _id: user.id });
+			if (!doc) return await interaction.reply(`**L'utente ${formatUser(user.id)} non è bloccato**`);
+			await interaction.client.mongo.deleteOne({ _id: user.id });
+			return await interaction.reply(`**L'utente ${formatUser(user.id)} è stato sbloccato**`);
 	}
 }

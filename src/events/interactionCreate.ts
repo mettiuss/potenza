@@ -3,6 +3,7 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	EmbedBuilder,
+	GuildMember,
 	Interaction,
 	ModalBuilder,
 	TextChannel,
@@ -10,6 +11,7 @@ import {
 	TextInputStyle,
 } from 'discord.js';
 import { createChannelCreateOptions, createLogEmbed, createUserEmbed, getUserChannel } from '../commands/ticket.js';
+import { formatUser } from '../utils.js';
 
 export const name = 'interactionCreate';
 export const once = false;
@@ -28,6 +30,15 @@ export async function execute(interaction: Interaction) {
 	if (interaction.isButton()) {
 		switch (interaction.customId) {
 			case 'vindertech':
+				if (!(interaction.member instanceof GuildMember)) return;
+
+				let doc = await interaction.client.mongo.findOne({ _id: interaction.member.id });
+				if (doc)
+					return interaction.reply({
+						content: `Sei stato/a bloccato/a dal servizio Vindertech`,
+						ephemeral: true,
+					});
+
 				const modal = new ModalBuilder().setCustomId('vindertech').setTitle('Richiesta Supporto');
 
 				// Create the text input components
@@ -98,12 +109,12 @@ export async function execute(interaction: Interaction) {
 						components: [],
 					});
 					return await interaction.reply({
-						content: `**Ticket aperto per <@${user.id}> (` + '`' + user.id + '`)**',
+						content: `**Ticket aperto per ${formatUser(user.id)}**`,
 						ephemeral: true,
 					});
 				} else {
 					return await interaction.reply({
-						content: `L'utente <@${user.id}> (` + '`' + user.id + '`) ha già un ticket aperto.',
+						content: `L'utente ${formatUser(user.id)} ha già un ticket aperto.`,
 						ephemeral: true,
 					});
 				}
