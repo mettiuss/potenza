@@ -9,6 +9,9 @@ const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWi
 
 const mongo = new MongoClient(process.env.MONGO as string);
 client.mongo = mongo.db('potenza').collection('ticket-block');
+const collect = mongo.db('potenza').collection('ticket-block');
+const x = collect.find();
+x.toArray();
 
 for (const file of commandFiles) {
 	import(`../dist/commands/${file}`).then((command) => client.commands.set(command.data.name, command));
