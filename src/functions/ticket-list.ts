@@ -31,7 +31,7 @@ export async function sendList(interaction: CommandInteraction) {
 	 * @returns {Promise<MessageEmbed>}
 	 */
 	const generateEmbed = async (start: number) => {
-		const current = docs.slice(start, start + 2);
+		const current = docs.slice(start, start + 5);
 
 		// You can of course customise this embed however you want
 		return new EmbedBuilder({
@@ -48,8 +48,8 @@ export async function sendList(interaction: CommandInteraction) {
 		});
 	};
 
-	// Send the embed with the first 2 guilds
-	const canFitOnOnePage = docs.length <= 2;
+	// Send the embed with the first 5 guilds
+	const canFitOnOnePage = docs.length <= 5;
 	const embedMessage = await interaction.reply({
 		embeds: [await generateEmbed(0)],
 		components: canFitOnOnePage ? [] : [new ActionRowBuilder<ButtonBuilder>().addComponents(forwardButton)],
@@ -66,7 +66,7 @@ export async function sendList(interaction: CommandInteraction) {
 	let currentIndex = 0;
 	collector.on('collect', async (interaction) => {
 		// Increase/decrease index
-		interaction.customId === backId ? (currentIndex -= 2) : (currentIndex += 2);
+		interaction.customId === backId ? (currentIndex -= 5) : (currentIndex += 5);
 		// Respond to interaction by updating message with new embed
 		await interaction.update({
 			embeds: [await generateEmbed(currentIndex)],
@@ -74,7 +74,7 @@ export async function sendList(interaction: CommandInteraction) {
 				new ActionRowBuilder<ButtonBuilder>().addComponents([
 					...(currentIndex ? [backButton] : []),
 					// forward button if it isn't the end
-					...(currentIndex + 2 < docs.length ? [forwardButton] : []),
+					...(currentIndex + 5 < docs.length ? [forwardButton] : []),
 				]),
 			],
 		});
