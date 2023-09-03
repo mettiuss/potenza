@@ -1,34 +1,28 @@
 import { Interaction } from 'discord.js';
-import { ticketOpen } from '../functions/ticket.js';
-import { handleModal, showModal } from '../functions/ticket-modal.js';
+import { handleChatInputCommand } from '../handles/chatInputCommand.js';
+import { handleRequestButton } from '../handles/ticket/requestButton.js';
+import { handleRequestModalSubmit } from '../handles/ticket/requestModalSubmit.js';
+import { handleTicketOpenButton } from '../handles/ticket/ticketOpenButton.js';
 
 export const name = 'interactionCreate';
 export const once = false;
 export async function execute(interaction: Interaction) {
-	if (interaction.isCommand()) {
-		const command = interaction.client.commands.get(interaction.commandName);
-		if (!command) return;
-
-		try {
-			await command.execute(interaction);
-		} catch (error) {
-			console.error(error);
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
+	if (interaction.isChatInputCommand()) {
+		await handleChatInputCommand(interaction);
 	}
 	if (interaction.isButton()) {
 		switch (interaction.customId) {
 			case 'vindertech':
-				return await showModal(interaction);
+				return await handleRequestButton(interaction);
 			case 'ticket-open':
-				return await ticketOpen(interaction);
+				return await handleTicketOpenButton(interaction);
 		}
 	}
 
 	if (interaction.isModalSubmit()) {
 		switch (interaction.customId) {
 			case 'vindertech':
-				return await handleModal(interaction);
+				return await handleRequestModalSubmit(interaction);
 		}
 	}
 }

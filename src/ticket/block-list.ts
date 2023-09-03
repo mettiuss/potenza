@@ -2,13 +2,13 @@ import {
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
-	CommandInteraction,
+	ChatInputCommandInteraction,
 	EmbedBuilder,
 	GuildMember,
 } from 'discord.js';
 import { formatUser } from '../utils.js';
 
-export async function sendList(interaction: CommandInteraction) {
+export default async (interaction: ChatInputCommandInteraction) => {
 	const backId = 'back';
 	const forwardId = 'forward';
 	const backButton = new ButtonBuilder()
@@ -79,4 +79,4 @@ export async function sendList(interaction: CommandInteraction) {
 			],
 		});
 	});
-}
+};
