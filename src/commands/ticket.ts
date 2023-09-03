@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, TextChannel } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { formatCode, formatUser } from '../utils.js';
 import { createChannelCreateOptions, getUserChannel } from '../functions/ticket.js';
@@ -46,11 +46,11 @@ export const data = new SlashCommandBuilder()
 	.addSubcommand((subcommand) =>
 		subcommand.setName('block-list').setDescription('Invia una lista degli utenti attualmente bloccati')
 	);
-export async function execute(interaction: CommandInteraction) {
-	const user = interaction.options.getUser('utente')!;
+export async function execute(interaction: ChatInputCommandInteraction) {
+	const user = interaction.options.getUser('utente', true);
 	let userEmbed, logEmbed, doc, logChannel;
 
-	switch ((interaction.options as any).getSubcommand()) {
+	switch (interaction.options.getSubcommand()) {
 		case 'open':
 			userEmbed = createUserEmbed(interaction, user, 'open');
 			logEmbed = createLogEmbed(interaction, user, 'open');
@@ -68,7 +68,7 @@ export async function execute(interaction: CommandInteraction) {
 				);
 			}
 		case 'close':
-			const reason = (interaction.options as any).getString('motivazione');
+			const reason = interaction.options.getString('motivazione', true);
 
 			userEmbed = createUserEmbed(interaction, user, 'close', reason);
 			logEmbed = createLogEmbed(interaction, user, 'close', reason);
@@ -76,6 +76,7 @@ export async function execute(interaction: CommandInteraction) {
 			if (userChannel.size === 0) {
 				return await interaction.reply(`L'utente ${formatUser(user.id)} non possiede nessun ticket aperto.`);
 			} else {
+				await userChannel.at(0)?.edit({ topic: '' });
 				await userChannel.at(0)?.delete();
 				try {
 					await user.send({ embeds: [userEmbed] });
