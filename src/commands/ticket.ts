@@ -4,7 +4,7 @@ import ticketOpen from '../ticket/open.js';
 import ticketClose from '../ticket/close.js';
 import ticketBlock from '../ticket/block.js';
 import ticketUnblock from '../ticket/unblock.js';
-import ticketBlockList from '../ticket/block-list.js';
+import ticketBlocked from '../ticket/blocked.js';
 
 export const data = new SlashCommandBuilder()
 	.setName('ticket')
@@ -45,22 +45,22 @@ export const data = new SlashCommandBuilder()
 			)
 	)
 	.addSubcommand((subcommand) =>
-		subcommand.setName('block-list').setDescription('Invia una lista degli utenti attualmente bloccati')
+		subcommand.setName('blocked').setDescription('Invia una lista degli utenti attualmente bloccati')
 	);
 export async function execute(interaction: ChatInputCommandInteraction) {
-	const user = interaction.options.getUser('utente', true);
+	const user = interaction.options.getUser('utente');
 
 	switch (interaction.options.getSubcommand()) {
 		case 'open':
-			return await ticketOpen(interaction, user);
+			return await ticketOpen(interaction, user!);
 		case 'close':
 			const reason = interaction.options.getString('motivazione', true);
-			return await ticketClose(interaction, user, reason);
+			return await ticketClose(interaction, user!, reason);
 		case 'block':
-			return await ticketBlock(interaction, user);
+			return await ticketBlock(interaction, user!);
 		case 'unblock':
-			return await ticketUnblock(interaction, user);
-		case 'block-list':
-			return await ticketBlockList(interaction);
+			return await ticketUnblock(interaction, user!);
+		case 'blocked':
+			return await ticketBlocked(interaction);
 	}
 }
