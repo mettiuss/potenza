@@ -58,7 +58,7 @@ function makeEmbed(docs: any, current_page: number) {
 }
 
 export default async (interaction: ChatInputCommandInteraction) => {
-	const docs = await interaction.client.mongo.find().toArray();
+	const docs = await interaction.client.mongo.block.find().toArray();
 	let current_page = 0;
 	const total_pages = Math.ceil(docs.length / ELEMENTS_PAGE);
 
@@ -68,7 +68,7 @@ export default async (interaction: ChatInputCommandInteraction) => {
 	});
 
 	const collector = message.createMessageComponentCollector({
-		filter: ({ user }) => user.id === (interaction.member as GuildMember).id,
+		filter: ({ user }) => user.id === interaction.user.id,
 	});
 
 	collector.on('collect', async (interaction) => {

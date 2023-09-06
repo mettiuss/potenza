@@ -2,16 +2,13 @@ import { readdirSync } from 'fs';
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { MongoClient } from 'mongodb';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
 
 const mongo = new MongoClient(process.env.MONGO as string);
-client.mongo = mongo.db('potenza').collection('ticket-block');
-const collect = mongo.db('potenza').collection('ticket-block');
-const x = collect.find();
-x.toArray();
+client.mongo = { block: mongo.db('potenza').collection('ticket-block'), logs: mongo.db('potenza').collection('logs') };
 
 for (const file of commandFiles) {
 	import(`../dist/commands/${file}`).then((command) => client.commands.set(command.data.name, command));

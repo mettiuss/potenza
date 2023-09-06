@@ -8,8 +8,6 @@ export default async function slashInit() {
 
 	for (const file of commandFiles) {
 		let command = await import(`../dist/commands/${file}`);
-		if (command.permissions) command.data.defaultPermission = false;
-		command.data.permissions = command.permissions;
 		commands.push(command.data);
 	}
 	const rest = new REST().setToken(process.env.TOKEN!);

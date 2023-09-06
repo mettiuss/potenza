@@ -1,13 +1,13 @@
-import { ButtonInteraction, Channel, CommandInteraction, EmbedBuilder, User } from 'discord.js';
+import { ButtonInteraction, Channel, CommandInteraction, EmbedBuilder, ModalSubmitInteraction, User } from 'discord.js';
 
-function getGuildIcon(interaction: CommandInteraction | ButtonInteraction) {
+function getGuildIcon(interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
 	return interaction.guild && interaction.guild.iconURL()
 		? interaction.guild.iconURL()!
 		: 'https://cdn.discordapp.com/embed/avatars/0.png';
 }
 
 export function createUserEmbed(
-	interaction: CommandInteraction | ButtonInteraction,
+	interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction,
 	user: User,
 	type: 'open' | 'close',
 	reason?: string
@@ -68,7 +68,7 @@ export function createUserEmbed(
 }
 
 export function createLogEmbed(
-	interaction: CommandInteraction | ButtonInteraction,
+	interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction,
 	user: User,
 	type: 'open' | 'close',
 	reason?: string

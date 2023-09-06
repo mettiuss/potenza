@@ -5,6 +5,7 @@ import ticketClose from '../ticket/close.js';
 import ticketBlock from '../ticket/block.js';
 import ticketUnblock from '../ticket/unblock.js';
 import ticketBlocked from '../ticket/blocked.js';
+import { formatCode, formatUser } from '../utils.js';
 
 export const data = new SlashCommandBuilder()
 	.setName('ticket')
@@ -46,16 +47,25 @@ export const data = new SlashCommandBuilder()
 	)
 	.addSubcommand((subcommand) =>
 		subcommand.setName('blocked').setDescription('Invia una lista degli utenti attualmente bloccati')
-	);
+	)
+	.setDMPermission(false);
 export async function execute(interaction: ChatInputCommandInteraction) {
 	const user = interaction.options.getUser('utente');
+	let res;
 
 	switch (interaction.options.getSubcommand()) {
 		case 'open':
-			return await ticketOpen(interaction, user!);
+			res = await ticketOpen(interaction, user!);
+			if (res) await interaction.reply(`**Ticket aperto per ${formatUser(user!.id)}**`);
+			return;
 		case 'close':
 			const reason = interaction.options.getString('motivazione', true);
-			return await ticketClose(interaction, user!, reason);
+			res = await ticketClose(interaction, user!, reason);
+			if (res)
+				await interaction.reply(
+					`**Ticket chiuso per ${formatUser(user!.id)} con motivazione: ${formatCode(reason)}**`
+				);
+			return;
 		case 'block':
 			return await ticketBlock(interaction, user!);
 		case 'unblock':

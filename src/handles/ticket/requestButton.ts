@@ -8,9 +8,7 @@ import {
 } from 'discord.js';
 
 export async function handleRequestButton(interaction: ButtonInteraction) {
-	if (!(interaction.member instanceof GuildMember)) return;
-
-	let doc = await interaction.client.mongo.findOne({ _id: interaction.member.id });
+	const doc = await interaction.client.mongo.block.findOne({ _id: interaction.user.id });
 	if (doc)
 		return interaction.reply({
 			content: `Sei stato/a bloccato/a dal servizio Vindertech`,

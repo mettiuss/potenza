@@ -1,23 +1,12 @@
-import { ButtonInteraction, TextChannel } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder, TextChannel } from 'discord.js';
 import ticketOpen from '../../ticket/open.js';
-import { execute } from '../../utils.js';
+import { execute, formatUser } from '../../utils.js';
 
 export async function handleTicketOpenButton(interaction: ButtonInteraction) {
-	const richiesteUtentiChannel = (await interaction.client.channels.fetch('683363814137266207')) as TextChannel;
+	const embed = interaction.message.embeds.at(0)!;
 
-	const messageId = interaction.message.embeds[0]!.description!.split('(')[1].split(')')[0].split('/').at(-1)!;
-
-	const richiestaUtenteMessage = await execute(richiesteUtentiChannel.messages.fetch(messageId));
-
-	if (!richiestaUtenteMessage) {
-		return await interaction.reply({
-			content: '<:FNIT_Stop:857617083185758208> **Message not found**',
-			ephemeral: true,
-		});
-	}
-
-	const userId = richiestaUtenteMessage.embeds[0].description!.split('<@')[1].split('>')[0]!;
-	const user = await interaction.guild?.members.fetch(userId);
+	const userId = embed.description!.split('<@')[1].split('>')[0]!;
+	const user = await interaction.client.users.fetch(userId);
 	if (!user) {
 		return await interaction.reply({
 			content: '<:FNIT_Stop:857617083185758208> **User not found**',
@@ -25,5 +14,20 @@ export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 		});
 	}
 
-	await ticketOpen(interaction, user.user, richiestaUtenteMessage);
+	const ticketId = await ticketOpen(interaction, user);
+	const updateEmbed = new EmbedBuilder()
+		.setColor('#00e3ff')
+		.setTitle(`:blue_circle: Richiesta presa in carico da ${interaction.user.tag}`)
+		.setDescription(
+			embed.description + `\n**Staff:** ${formatUser(interaction.user.id)}\n**Channel:** <#${ticketId}>`
+		)
+		.setFields(embed.fields);
+	await interaction.update({
+		embeds: [updateEmbed],
+		components: [
+			new ActionRowBuilder<ButtonBuilder>().addComponents(
+				new ButtonBuilder().setLabel('Chiudi Ticket').setStyle(ButtonStyle.Danger).setCustomId('ticket-close')
+			),
+		],
+	});
 }
