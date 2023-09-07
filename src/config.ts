@@ -3,7 +3,12 @@ import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { MongoClient } from 'mongodb';
 
 const client = new Client({
-	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessages,
+	],
 });
 
 client.commands = new Collection();
