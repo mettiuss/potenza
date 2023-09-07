@@ -2,7 +2,9 @@ import { readdirSync } from 'fs';
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { MongoClient } from 'mongodb';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent] });
+const client = new Client({
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
+});
 
 client.commands = new Collection();
 const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
