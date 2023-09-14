@@ -16,16 +16,18 @@ export default async (interaction: ChatInputCommandInteraction, user: User) => {
 			content: `**<:FNIT_Stop:857617083185758208> C'è stato un errore, riprova**`,
 			ephemeral: true,
 		});
-	await interaction.client.mongo.block.insertOne({
-		_id: user.id,
-		staff: interaction.member.id,
-		at: new Date(),
-	});
-	await interaction.client.log_channel.send({ embeds: [createBlockLogEmbed(interaction, user, 'block')] });
-	await interaction.client.mongo.logs.insertOne({
-		staff: interaction.user.id,
-		action: 'block',
-		at: new Date(),
-	});
+	await Promise.all([
+		interaction.client.mongo.block.insertOne({
+			_id: user.id,
+			staff: interaction.member.id,
+			at: new Date(),
+		}),
+		interaction.client.log_channel.send({ embeds: [createBlockLogEmbed(interaction, user, 'block')] }),
+		interaction.client.mongo.logs.insertOne({
+			staff: interaction.user.id,
+			action: 'block',
+			at: new Date(),
+		}),
+	]);
 	return await interaction.reply(`**L'utente ${formatUser(user.id)} è stato bloccato**`);
 };

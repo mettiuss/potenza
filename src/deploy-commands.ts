@@ -13,7 +13,7 @@ export default async function slashInit() {
 	const rest = new REST().setToken(process.env.TOKEN!);
 
 	try {
-		await rest.put(Routes.applicationCommands(process.env.APPID!), {
+		await rest.put(Routes.applicationCommands(process.env.APP_ID!), {
 			body: commands,
 		});
 		console.log('Slash commands refreshed');

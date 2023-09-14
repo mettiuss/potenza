@@ -18,30 +18,37 @@ export function createChannelCreateOptions(
 	interaction: CommandInteraction | ButtonInteraction,
 	user: User
 ): GuildChannelCreateOptions {
-	let staffPerms = [
+	const staffPerms = [
 		PermissionsBitField.Flags.ViewChannel,
 		PermissionsBitField.Flags.ManageMessages,
 		PermissionsBitField.Flags.EmbedLinks,
 		PermissionsBitField.Flags.AttachFiles,
 	];
+	let permissionOverwrites = [
+		{ id: interaction.guild!.roles.everyone, deny: [PermissionsBitField.Flags.ViewChannel] },
+		{
+			id: user.id,
+			allow: [
+				PermissionsBitField.Flags.ViewChannel,
+				PermissionsBitField.Flags.EmbedLinks,
+				PermissionsBitField.Flags.AttachFiles,
+				PermissionsBitField.Flags.ReadMessageHistory,
+			],
+		},
+	];
+	for (let id of JSON.parse(process.env.STAFF!)) {
+		permissionOverwrites.push({ id: id, allow: staffPerms });
+	}
 	return {
 		name: `ticket-${user.username}`,
 		topic: `Ticket User ID: ${user.id}`,
-		parent: '683363228931194899',
-		permissionOverwrites: [
-			{ id: interaction.guild!.roles.everyone, deny: [PermissionsBitField.Flags.ViewChannel] },
-			{ id: '454262524955852800', allow: staffPerms },
-			{ id: '659513332218331155', allow: staffPerms },
-			{ id: '720221658501087312', allow: staffPerms },
-			{
-				id: user.id,
-				allow: [
-					PermissionsBitField.Flags.ViewChannel,
-					PermissionsBitField.Flags.EmbedLinks,
-					PermissionsBitField.Flags.AttachFiles,
-					PermissionsBitField.Flags.ReadMessageHistory,
-				],
-			},
-		],
+		parent: process.env.TICKET_CATEGORY,
+		permissionOverwrites: permissionOverwrites,
 	};
+}
+
+export interface LogRecord {
+	staff: string;
+	action: 'open' | 'close' | 'block' | 'unblock';
+	at: Date;
 }

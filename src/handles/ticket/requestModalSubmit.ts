@@ -17,7 +17,9 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 			ephemeral: true,
 		});
 
-	const richiesteUtentiChannel = (await interaction.client.channels.fetch('683363814137266207')) as TextChannel;
+	const richiesteUtentiChannel = (await interaction.client.channels.fetch(
+		process.env.RICHIESTE_UTENTI!
+	)) as TextChannel;
 	const embed = new EmbedBuilder()
 		.setColor('#00e3ff')
 		.setTitle('Nuova Richiesta di Supporto')
@@ -35,7 +37,9 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	await richiesteUtentiChannel.send({
 		embeds: [embed],
 	});
-	const nuoveRichiesteChannel = (await interaction.client.channels.fetch('807985160703180850')) as TextChannel;
+	const nuoveRichiesteChannel = (await interaction.client.channels.fetch(
+		process.env.NUOVE_RICHIESTE!
+	)) as TextChannel;
 	embed
 		.setTitle(':red_circle: Nuova richiesta di supporto')
 		.setDescription(`**User:** ${formatUser(interaction.user.id)}`);
