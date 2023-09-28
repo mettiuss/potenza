@@ -45,6 +45,11 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 	if (submitted && !executed) {
 		const reason = submitted.fields.getTextInputValue('reason');
 
+		submitted.reply({
+			content: `**Sto chiudendo il ticket per ${formatUser(user!.id)} con motivazione: ${formatCode(reason)}**`,
+			ephemeral: true,
+		});
+
 		const attachment_url = await ticketClose(submitted, user!, reason);
 
 		const description = embed.description?.split('**Channel:**')[0];
@@ -60,16 +65,10 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 			)
 			.setFields(embed.fields);
 
-		await Promise.all([
-			submitted.reply({
-				content: `**Ticket chiuso per ${formatUser(user!.id)} con motivazione: ${formatCode(reason)}**`,
-				ephemeral: true,
-			}),
-			interaction.message.edit({
-				embeds: [updateEmbed],
-				components: [],
-			}),
-		]);
+		await interaction.message.edit({
+			embeds: [updateEmbed],
+			components: [],
+		});
 
 		executed = true;
 	}
