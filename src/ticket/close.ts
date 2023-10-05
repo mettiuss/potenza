@@ -29,6 +29,14 @@ export default async (
 	const userChannel = getUserChannel(interaction.guild, user.id);
 
 	if (userChannel.size === 0) {
+		if (interaction instanceof ModalSubmitInteraction) {
+			await interaction.editReply({
+				content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
+					user.id
+				)} non possiede nessun ticket aperto.**`,
+			});
+			return;
+		}
 		await interaction.reply({
 			content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
 				user.id

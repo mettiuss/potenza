@@ -45,12 +45,14 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 	if (submitted && !executed) {
 		const reason = submitted.fields.getTextInputValue('reason');
 
-		submitted.reply({
+		await submitted.reply({
 			content: `**Sto chiudendo il ticket per ${formatUser(user!.id)} con motivazione: ${formatCode(reason)}**`,
 			ephemeral: true,
 		});
 
 		const attachment_url = await ticketClose(submitted, user!, reason);
+
+		if (!attachment_url) return;
 
 		const description = embed.description?.split('**Channel:**')[0];
 
