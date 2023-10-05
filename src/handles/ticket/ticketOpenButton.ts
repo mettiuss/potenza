@@ -15,6 +15,7 @@ export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 	}
 
 	const ticketId = await ticketOpen(interaction, user);
+	if (!ticketId) return;
 	const updateEmbed = new EmbedBuilder()
 		.setColor('#00e3ff')
 		.setTitle(`:blue_circle: Richiesta presa in carico da ${interaction.user.tag}`)
@@ -22,7 +23,8 @@ export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 			embed.description + `\n**Staff:** ${formatUser(interaction.user.id)}\n**Channel:** <#${ticketId}>`
 		)
 		.setFields(embed.fields);
-	await interaction.update({
+	await interaction.message.edit({
+		content: '',
 		embeds: [updateEmbed],
 		components: [
 			new ActionRowBuilder<ButtonBuilder>().addComponents(

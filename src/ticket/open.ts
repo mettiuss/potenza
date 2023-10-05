@@ -14,6 +14,11 @@ export default async (interaction: ChatInputCommandInteraction | ButtonInteracti
 		return;
 	}
 
+	if (interaction instanceof ButtonInteraction)
+		await interaction.update({
+			content: '<a:A_FNIT_Loading:749928095321948160>',
+		});
+
 	const ticketChannel = await interaction.guild.channels.create(createChannelCreateOptions(interaction, user));
 
 	await Promise.all([
