@@ -1,6 +1,6 @@
-import { ChatInputCommandInteraction } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 
-export async function handleChatInputCommand(interaction: ChatInputCommandInteraction) {
+export async function handleCommand(interaction: CommandInteraction) {
 	const command = interaction.client.commands.get(interaction.commandName);
 	if (!command) return;
 

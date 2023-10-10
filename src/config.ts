@@ -11,14 +11,15 @@ const client = new Client({
 	],
 });
 
-client.commands = new Collection();
-const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
-
 const mongo = new MongoClient(process.env.MONGO as string);
 client.mongo = {
 	block: mongo.db(process.env.MONGO_DB).collection('ticket-block'),
+	descriptions: mongo.db(process.env.MONGO_DB).collection('ticket-descriptions'),
 	logs: mongo.db(process.env.MONGO_DB).collection('logs'),
 };
+
+client.commands = new Collection();
+const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	import(`../dist/commands/${file}`).then((command) => client.commands.set(command.data.name, command));

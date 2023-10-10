@@ -58,6 +58,7 @@ export default async (
 			embeds: [createLogEmbed(interaction, user, 'close', reason)],
 			files: [attachment],
 		}),
+		interaction.client.mongo.descriptions.deleteOne({ _id: channel.id }),
 		deleteTicketChannel(channel),
 		sendCloseMessage(interaction, user, reason),
 		interaction.client.mongo.logs.insertOne({

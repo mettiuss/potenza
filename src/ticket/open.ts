@@ -21,6 +21,12 @@ export default async (interaction: ChatInputCommandInteraction | ButtonInteracti
 
 	const ticketChannel = await interaction.guild.channels.create(createChannelCreateOptions(interaction, user));
 
+	if (interaction instanceof ButtonInteraction)
+		await interaction.client.mongo.descriptions.insertOne({
+			_id: ticketChannel.id,
+			description: interaction.message.embeds[0].fields[0].value,
+		});
+
 	await Promise.all([
 		ticketChannel.send({ embeds: [createUserEmbed(interaction, user, 'open')] }),
 		interaction.client.log_channel.send({ embeds: [createLogEmbed(interaction, user, 'open')] }),

@@ -1,5 +1,5 @@
 import { Interaction } from 'discord.js';
-import { handleChatInputCommand } from '../handles/chatInputCommand.js';
+import { handleCommand } from '../handles/Command.js';
 import { handleRequestButton } from '../handles/ticket/requestButton.js';
 import { handleRequestModalSubmit } from '../handles/ticket/requestModalSubmit.js';
 import { handleTicketOpenButton } from '../handles/ticket/ticketOpenButton.js';
@@ -8,8 +8,8 @@ import { handleTicketCloseButton } from '../handles/ticket/ticketCloseButton.js'
 export const name = 'interactionCreate';
 export const once = false;
 export async function execute(interaction: Interaction) {
-	if (interaction.isChatInputCommand()) {
-		await handleChatInputCommand(interaction);
+	if (interaction.isCommand()) {
+		await handleCommand(interaction);
 	}
 	if (interaction.isButton()) {
 		switch (interaction.customId) {
