@@ -6,7 +6,7 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
-import ticketClose from '../../ticket/close.js';
+import ticketClose from '../../Functions/Ticket/close.js';
 import { formatCode, formatUser } from '../../utils.js';
 
 export async function handleTicketCloseButton(interaction: ButtonInteraction) {

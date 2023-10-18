@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, TextChannel, User } from 'discord.js';
-import { formatUser } from '../utils.js';
+import { ChatInputCommandInteraction, User } from 'discord.js';
+import { formatUser } from '../../utils.js';
 import { createBlockLogEmbed } from './embeds.js';
 
 export default async (interaction: ChatInputCommandInteraction, user: User) => {

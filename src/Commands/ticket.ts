@@ -1,10 +1,10 @@
 import { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import ticketOpen from '../ticket/open.js';
-import ticketClose from '../ticket/close.js';
-import ticketBlock from '../ticket/block.js';
-import ticketUnblock from '../ticket/unblock.js';
-import ticketBlocked from '../ticket/blocked.js';
+import ticketOpen from '../Functions/Ticket/open.js';
+import ticketClose from '../Functions/Ticket/close.js';
+import ticketBlock from '../Functions/Ticket/block.js';
+import ticketUnblock from '../Functions/Ticket/unblock.js';
+import ticketBlocked from '../Functions/Ticket/blocked.js';
 import { formatCode, formatUser } from '../utils.js';
 
 export const data = new SlashCommandBuilder()

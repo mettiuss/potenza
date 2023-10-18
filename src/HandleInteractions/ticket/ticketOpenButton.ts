@@ -1,6 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder, TextChannel } from 'discord.js';
-import ticketOpen from '../../ticket/open.js';
-import { execute, formatUser } from '../../utils.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder } from 'discord.js';
+import ticketOpen from '../../Functions/Ticket/open.js';
+import { formatUser } from '../../utils.js';
 
 export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 	const embed = interaction.message.embeds.at(0)!;

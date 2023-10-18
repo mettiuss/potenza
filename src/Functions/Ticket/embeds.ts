@@ -1,4 +1,4 @@
-import { ButtonInteraction, Channel, CommandInteraction, EmbedBuilder, ModalSubmitInteraction, User } from 'discord.js';
+import { ButtonInteraction, CommandInteraction, EmbedBuilder, ModalSubmitInteraction, User } from 'discord.js';
 
 function getGuildIcon(interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
 	return interaction.guild && interaction.guild.iconURL()

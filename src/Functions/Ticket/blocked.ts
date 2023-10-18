@@ -1,12 +1,5 @@
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	ChatInputCommandInteraction,
-	EmbedBuilder,
-	GuildMember,
-} from 'discord.js';
-import { formatUser } from '../utils.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
+import { formatUser } from '../../utils.js';
 
 const ELEMENTS_PAGE = 5;
 

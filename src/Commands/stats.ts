@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { formatCode } from '../utils.js';
-import { LogRecord } from '../ticket/utils.js';
+import { LogRecord } from '../Functions/Ticket/utils.js';
 
 function subtractMonths(date: Date, months: number): Date {
 	var dateOffset = 30 * 24 * 60 * 60 * 1000 * months;

@@ -19,16 +19,16 @@ client.mongo = {
 };
 
 client.commands = new Collection();
-const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
+const commandFiles = readdirSync('./dist/Commands').filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	import(`../dist/commands/${file}`).then((command) => client.commands.set(command.data.name, command));
+	import(`../dist/Commands/${file}`).then((command) => client.commands.set(command.data.name, command));
 }
 
-const eventFiles = readdirSync('./dist/events').filter((file) => file.endsWith('.js'));
+const eventFiles = readdirSync('./dist/Events').filter((file) => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-	import(`../dist/events/${file}`).then((event) => {
+	import(`../dist/Events/${file}`).then((event) => {
 		if (event.once) {
 			client.once(event.name, (...args) => event.execute(...args));
 		} else {

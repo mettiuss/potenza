@@ -1,11 +1,4 @@
-import {
-	ActionRowBuilder,
-	ButtonInteraction,
-	GuildMember,
-	ModalBuilder,
-	TextInputBuilder,
-	TextInputStyle,
-} from 'discord.js';
+import { ActionRowBuilder, ButtonInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 
 export async function handleRequestButton(interaction: ButtonInteraction) {
 	const doc = await interaction.client.mongo.block.findOne({ _id: interaction.user.id });

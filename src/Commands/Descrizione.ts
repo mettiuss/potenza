@@ -1,7 +1,6 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
-	ChatInputCommandInteraction,
 	MessageContextMenuCommandInteraction,
 	ModalBuilder,
 	TextInputBuilder,

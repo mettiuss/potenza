@@ -1,6 +1,6 @@
-import { ButtonInteraction, ChatInputCommandInteraction, EmbedBuilder, Message, TextChannel, User } from 'discord.js';
+import { ButtonInteraction, ChatInputCommandInteraction, User } from 'discord.js';
 import { createChannelCreateOptions, getUserChannel } from './utils.js';
-import { formatUser } from '../utils.js';
+import { formatUser } from '../../utils.js';
 import { createLogEmbed, createUserEmbed } from './embeds.js';
 
 export default async (interaction: ChatInputCommandInteraction | ButtonInteraction, user: User) => {
