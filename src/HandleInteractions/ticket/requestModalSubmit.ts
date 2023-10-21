@@ -8,6 +8,8 @@ import {
 } from 'discord.js';
 import { formatUser } from '../../utils.js';
 
+
+
 export async function handleRequestModalSubmit(interaction: ModalSubmitInteraction) {
 	const description = interaction.fields.getTextInputValue('description');
 	const platform = interaction.fields.getTextInputValue('platform');
@@ -20,6 +22,19 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	const richiesteUtentiChannel = (await interaction.client.channels.fetch(
 		process.env.RICHIESTE_UTENTI!
 	)) as TextChannel;
+
+	let roleName = 'Vindertech'; // Nome predefinito
+  
+	try {
+	  const role = await interaction.guild?.roles.fetch('1163055886848229396');
+	  if (role) {
+		roleName = role.toString(); // Ping del ruolo
+	  }
+	} catch (error) {
+	  console.error('Errore nel recupero del ruolo:', error);
+	}
+
+
 	const embed = new EmbedBuilder()
 		.setColor('#00e3ff')
 		.setTitle('Nuova Richiesta di Supporto')
@@ -34,6 +49,7 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 			{ name: 'Piattaforma', value: '```\n' + platform + '\n```' }
 		);
 
+
 	await richiesteUtentiChannel.send({
 		embeds: [embed],
 	});
@@ -43,14 +59,19 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	embed
 		.setTitle(':red_circle: Nuova richiesta di supporto')
 		.setDescription(`**User:** ${formatUser(interaction.user.id)}`);
+
+
+	const content = `> ${roleName}`;
 	nuoveRichiesteChannel.send({
-		embeds: [embed],
-		components: [
-			new ActionRowBuilder<ButtonBuilder>().addComponents(
-				new ButtonBuilder().setLabel('Apri Ticket').setStyle(ButtonStyle.Success).setCustomId('ticket-open')
-			),
-		],
+	  content,
+	  embeds: [embed],
+	  components: [
+		new ActionRowBuilder<ButtonBuilder>().addComponents(
+		  new ButtonBuilder().setLabel('Apri Ticket').setStyle(ButtonStyle.Success).setCustomId('ticket-open')
+		),
+	  ],
 	});
+
 	return await interaction.reply({
 		content:
 			'<:FNIT_ThumbsUp:454640434380013599> Richiesta inviata!\nPer favore, **abbi pazienza**: appena un membro dello staff sarà disponibile, arriverà in tuo aiuto.',
