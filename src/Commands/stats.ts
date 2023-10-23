@@ -90,7 +90,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			});
 		case 'feedback':
 			const user_feedback = interaction.options.getUser('utente', true);
-			const feedbackDocument = await interaction.client.mongo.feedbacks.findOne({ _id: user_feedback.id });
+			const feedbackDocument = await interaction.client.mongo.feedback.findOne({ _id: user_feedback.id });
 
 			if (feedbackDocument) {
 				const likeCount: number = feedbackDocument.like || 0;
