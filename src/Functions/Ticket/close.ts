@@ -5,47 +5,35 @@ import { createLogEmbed, createUserEmbed } from './embeds.js';
 import discordTranscripts from 'discord-html-transcripts';
 import { ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 
-
-
 async function deleteTicketChannel(channel: TextChannel) {
 	await channel.edit({ topic: '' });
 	await channel.delete();
 }
 
-
 async function sendCloseMessage(
-    interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction,
-    user: User,
-    reason: string
+	interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction,
+	user: User,
+	reason: string
 ) {
-    try {
-        const userId = interaction.user.id; // UserID del Vindertech
-        const message = await user.send({ embeds: [createUserEmbed(interaction, user, 'close', reason)] });
+	try {
+		const userId = interaction.user.id; // UserID del Vindertech
+		const LikeButton = new ButtonBuilder()
+			.setCustomId(`feedback_like_${userId}`)
+			.setLabel('👍')
+			.setStyle(ButtonStyle.Primary);
+		const NoLikeButton = new ButtonBuilder()
+			.setCustomId(`feedback_nolike_${userId}`)
+			.setLabel('👎')
+			.setStyle(ButtonStyle.Danger);
 
-        const LikeButton = new ButtonBuilder()
-            .setCustomId(`feedback_like_${userId}`)
-            .setLabel('👍')
-            .setStyle(ButtonStyle.Primary);
-		/*
-        const okayButton = new ButtonBuilder()
-            .setCustomId(`feedback_okay_${userId}`)
-            .setLabel('👌')
-            .setStyle(ButtonStyle.Secondary);
-		*/
-        const NoLikeButton = new ButtonBuilder()
-            .setCustomId(`feedback_nolike_${userId}`)
-            .setLabel('👎')
-            .setStyle(ButtonStyle.Danger);
-
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(LikeButton, NoLikeButton);
-
-        await message.edit({ components: [row] });
-
-    } catch (error) {
-        console.error(error);
-    }
+		await user.send({
+			embeds: [createUserEmbed(interaction, user, 'close', reason)],
+			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(LikeButton, NoLikeButton)],
+		});
+	} catch (error) {
+		console.error(error);
+	}
 }
-
 
 export default async (
 	interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction,

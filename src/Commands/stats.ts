@@ -35,16 +35,22 @@ export const data = new SlashCommandBuilder()
 			.setName('last-command')
 			.setDescription("Invia la data dell'ultimo comando eseguito da ogni Vindertech")
 	)
+	.addSubcommand((subcommand) =>
+		subcommand
+			.setName('feedback')
+			.setDescription('Invia statistiche dei feedback per i vindertech')
+			.addUserOption((input) => input.setName('utente').setDescription('Filtra per utente').setRequired(true))
+	)
 	.setDMPermission(false);
 export async function execute(interaction: ChatInputCommandInteraction) {
 	switch (interaction.options.getSubcommand()) {
 		case 'activity':
-			const user = interaction.options.getUser('utente');
-			if (user) {
-				const docs = await interaction.client.mongo.logs.find({ staff: user.id }).toArray();
+			const user_activity = interaction.options.getUser('utente');
+			if (user_activity) {
+				const docs = await interaction.client.mongo.logs.find({ staff: user_activity.id }).toArray();
 
 				return await interaction.reply({
-					embeds: [buildUserActivityEmbed(user, docs)],
+					embeds: [buildUserActivityEmbed(user_activity, docs)],
 					ephemeral: true,
 				});
 			}
@@ -82,5 +88,25 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 						.setDescription(await lastExecutedCommandDescription(interaction, vindertech.members)),
 				],
 			});
+		case 'feedback':
+			const user_feedback = interaction.options.getUser('utente', true);
+			const feedbackDocument = await interaction.client.mongo.feedbacks.findOne({ _id: user_feedback.id });
+
+			if (feedbackDocument) {
+				const likeCount: number = feedbackDocument.like || 0;
+				const noLikeCount: number = feedbackDocument.nolike || 0;
+				const averageRating: number = (likeCount / (likeCount + noLikeCount)) * 5;
+				const averageRatingInStars: number = parseFloat(averageRating.toFixed(2));
+
+				await interaction.reply({
+					content: `**👮  Informazioni Utente <@${user_feedback.id}>**\n- 👍  ** Like Ricevuti: ${likeCount}**\n- 👎  ** Non mi piace Ricevuti: ${noLikeCount}**\n> **﻿:star:﻿ Valutazione Media: ${averageRatingInStars}/5**`,
+					ephemeral: true,
+				});
+			} else {
+				await interaction.reply({
+					content: `❌ Nessuna statistica disponibile per l'utente <@${user_feedback.id}>.`,
+					ephemeral: true,
+				});
+			}
 	}
 }
