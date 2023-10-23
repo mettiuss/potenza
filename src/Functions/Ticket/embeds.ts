@@ -60,7 +60,7 @@ export function createUserEmbed(
 				{
 					name: '**Feedback**',
 					value: `Ci auguriamo che il servizio di supporto Vindertech ti sia stato utile nella risoluzione del tuo problema e abbia soddisfatto le tue aspettative. 
-*La tua opinione conta per noi!*
+**La tua opinione conta per noi!**
 Ti invitiamo a lasciare un Feedback qui di seguito per permetterci di migliorare sempre di più il servizio offerto e continuare ad aiutare tanti altri utenti come te. Grazie in anticipo!`,
 					inline: false,
 				}
