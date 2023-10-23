@@ -4,6 +4,7 @@ import { handleRequestButton } from '../HandleInteractions/ticket/requestButton.
 import { handleRequestModalSubmit } from '../HandleInteractions/ticket/requestModalSubmit.js';
 import { handleTicketOpenButton } from '../HandleInteractions/ticket/ticketOpenButton.js';
 import { handleTicketCloseButton } from '../HandleInteractions/ticket/ticketCloseButton.js';
+import {handleFeedback} from '../HandleInteractions/handleFeedback.js';
 
 export const name = 'interactionCreate';
 export const once = false;
@@ -19,6 +20,8 @@ export async function execute(interaction: Interaction) {
 				return await handleTicketOpenButton(interaction);
 			case 'ticket-close':
 				return await handleTicketCloseButton(interaction);
+			case interaction.customId.startsWith('feedback') ? interaction.customId : '' :
+				return await handleFeedback(interaction)
 		}
 	}
 

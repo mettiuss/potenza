@@ -16,6 +16,7 @@ client.mongo = {
 	block: mongo.db(process.env.MONGO_DB).collection('ticket-block'),
 	descriptions: mongo.db(process.env.MONGO_DB).collection('ticket-descriptions'),
 	logs: mongo.db(process.env.MONGO_DB).collection('logs'),
+	feedback: mongo.db(process.env.MONGO_DB).collection('feedback'),
 };
 
 client.commands = new Collection();

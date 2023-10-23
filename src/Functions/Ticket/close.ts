@@ -3,6 +3,7 @@ import { getUserChannel } from './utils.js';
 import { formatUser } from '../../utils.js';
 import { createLogEmbed, createUserEmbed } from './embeds.js';
 import discordTranscripts from 'discord-html-transcripts';
+import { ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 
 async function deleteTicketChannel(channel: TextChannel) {
 	await channel.edit({ topic: '' });
@@ -15,8 +16,23 @@ async function sendCloseMessage(
 	reason: string
 ) {
 	try {
-		await user.send({ embeds: [createUserEmbed(interaction, user, 'close', reason)] });
-	} catch {}
+		const userId = interaction.user.id; // UserID del Vindertech
+		const LikeButton = new ButtonBuilder()
+			.setCustomId(`feedback_like_${userId}`)
+			.setLabel('👍')
+			.setStyle(ButtonStyle.Primary);
+		const NoLikeButton = new ButtonBuilder()
+			.setCustomId(`feedback_nolike_${userId}`)
+			.setLabel('👎')
+			.setStyle(ButtonStyle.Danger);
+
+		await user.send({
+			embeds: [createUserEmbed(interaction, user, 'close', reason)],
+			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(LikeButton, NoLikeButton)],
+		});
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 export default async (

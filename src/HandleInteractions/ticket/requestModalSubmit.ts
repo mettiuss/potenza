@@ -20,6 +20,7 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	const richiesteUtentiChannel = (await interaction.client.channels.fetch(
 		process.env.RICHIESTE_UTENTI!
 	)) as TextChannel;
+
 	const embed = new EmbedBuilder()
 		.setColor('#00e3ff')
 		.setTitle('Nuova Richiesta di Supporto')
@@ -43,7 +44,9 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	embed
 		.setTitle(':red_circle: Nuova richiesta di supporto')
 		.setDescription(`**User:** ${formatUser(interaction.user.id)}`);
+
 	nuoveRichiesteChannel.send({
+		content: `<@&659513332218331155>`,
 		embeds: [embed],
 		components: [
 			new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -51,6 +54,7 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 			),
 		],
 	});
+
 	return await interaction.reply({
 		content:
 			'<:FNIT_ThumbsUp:454640434380013599> Richiesta inviata!\nPer favore, **abbi pazienza**: appena un membro dello staff sarà disponibile, arriverà in tuo aiuto.',
