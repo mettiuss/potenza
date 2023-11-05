@@ -18,7 +18,11 @@ export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 	if (!ticketId) return;
 	const updateEmbed = new EmbedBuilder()
 		.setColor('#00e3ff')
-		.setTitle(`:blue_circle: Richiesta presa in carico da ${interaction.user.tag}`)
+		.setTitle(
+			`:blue_circle: Richiesta di ${embed.title?.split('(')[1].split(')')[0]} presa in carico da ${
+				interaction.user.tag
+			}`
+		)
 		.setDescription(
 			embed.description + `\n**Staff:** ${formatUser(interaction.user.id)}\n**Channel:** <#${ticketId}>`
 		)

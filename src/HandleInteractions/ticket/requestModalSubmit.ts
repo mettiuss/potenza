@@ -42,7 +42,7 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 		process.env.NUOVE_RICHIESTE!
 	)) as TextChannel;
 	embed
-		.setTitle(':red_circle: Nuova richiesta di supporto')
+		.setTitle(`:red_circle: Nuova richiesta di supporto (${interaction.user.tag})`)
 		.setDescription(`**User:** ${formatUser(interaction.user.id)}`);
 
 	nuoveRichiesteChannel.send({
