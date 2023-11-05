@@ -9,9 +9,7 @@ import {
 } from 'discord.js';
 
 export function getUserChannel(guild: Guild, userID: string) {
-	return guild.channels.cache.filter(
-		(ch) => ch.type === ChannelType.GuildText && ch.topic == `Ticket User ID: ${userID}`
-	);
+	return guild.channels.cache.filter((ch) => ch.type === ChannelType.GuildText && ch.topic == userID);
 }
 
 export function createChannelCreateOptions(
@@ -41,7 +39,7 @@ export function createChannelCreateOptions(
 	}
 	return {
 		name: `ticket-${user.username}`,
-		topic: `Ticket User ID: ${user.id}`,
+		topic: user.id,
 		parent: process.env.TICKET_CATEGORY,
 		permissionOverwrites: permissionOverwrites,
 	};
