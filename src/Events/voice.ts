@@ -23,6 +23,7 @@ export async function execute(oldState: VoiceState, newState: VoiceState) {
       },
     ],
   });
+  await newChannel.edit({ userLimit: 4 }); // Default channel limits
   await newState.setChannel(newChannel);
 }
 
