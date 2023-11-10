@@ -2,6 +2,7 @@ import { VoiceBasedChannel, VoiceState } from 'discord.js';
 
 export const name = 'voiceStateUpdate';
 export const once = false;
+
 export async function execute(oldState: VoiceState, newState: VoiceState) {
   const channelID = '1164249961093926974'; // ID MAIN CHANNEL
   const categoryID = '1163224804980162681';
@@ -10,31 +11,27 @@ export async function execute(oldState: VoiceState, newState: VoiceState) {
     const user = oldState.member?.user;
     const channelName = `${user?.username}'s channel`;
 
-    // check if the user (owner of the channel are leaving the channel)
+    // Check channel owner leaves the vc
     if (oldState.channel.name === channelName) {
       console.log('User leaving channel:', oldState.member);
 
-      // check if the channel owner is in the same voice channel.
+      // Check owner vc
       const ownerVoiceState = oldState.guild?.voiceStates.cache.find((voiceState) => {
         return voiceState.channelId === channelID && voiceState.member?.user.username === user?.username;
       });
 
       if (!ownerVoiceState) {
-        deleteChannel(oldState.channel);
+        await deleteChannel(oldState.channel);
       }
     }
   }
 }
 
-function deleteChannel(channel: VoiceBasedChannel) {
-  // check, it will not delete the main channel
+async function deleteChannel(channel: VoiceBasedChannel) {
+  // Check channel main (crea canali)
   if (channel.id !== '1164249961093926974') {
-    channel.delete()
-      .then(() => {
-        console.log('Channel deleted because its creator left');
-      })
-      .catch((error) => {
-        console.error('Error while removing the channel:', error);
-      });
+      await channel.delete();
+      console.log('Channel deleted because its creator left');
   }
 }
+
