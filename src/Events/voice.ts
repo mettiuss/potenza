@@ -22,8 +22,8 @@ export async function execute(oldState: VoiceState, newState: VoiceState) {
         allow: [PermissionFlagsBits.Connect, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.Speak, PermissionFlagsBits.ManageChannels],
       },
     ],
+    userLimit: 4,  // Limit 4
   });
-  await newChannel.edit({ userLimit: 4 }); // Default channel limits
   await newState.setChannel(newChannel);
 }
 
