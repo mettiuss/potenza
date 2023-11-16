@@ -11,7 +11,7 @@ async function deleteTicketChannel(channel: TextChannel) {
 }
 
 async function sendCloseMessage(
-	interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction,
+	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
 	user: User,
 	reason: string
 ) {
@@ -30,13 +30,11 @@ async function sendCloseMessage(
 			embeds: [createUserEmbed(interaction, user, 'close', reason)],
 			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(LikeButton, NoLikeButton)],
 		});
-	} catch (error) {
-		console.error(error);
-	}
+	} catch {}
 }
 
 export default async (
-	interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction,
+	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
 	user: User,
 	reason: string
 ) => {
@@ -61,6 +59,8 @@ export default async (
 		});
 		return;
 	}
+
+	if (interaction instanceof ChatInputCommandInteraction) await interaction.deferReply();
 
 	const channel = userChannel.at(0) as TextChannel;
 

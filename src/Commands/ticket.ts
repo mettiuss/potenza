@@ -62,7 +62,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			const reason = interaction.options.getString('motivazione', true);
 			res = await ticketClose(interaction, user!, reason);
 			if (res)
-				await interaction.reply(
+				await interaction.editReply(
 					`**Ticket chiuso per ${formatUser(user!.id)} con motivazione: ${formatCode(reason)}**`
 				);
 			return;
