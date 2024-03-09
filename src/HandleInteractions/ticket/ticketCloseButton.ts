@@ -81,13 +81,11 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 		
 		const url = 'https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url);
 
-		axios.get(url)
-		  .then((response: { data: any; }) => {
-			console.log(response.data);
-		  })
-		  .catch((error: any) => {
-			console.error(`Error making GET request: ${error}`);
-		  });
+		try {
+			await axios.get(url);
+		} catch {
+			console.log(`Error making GET request: ${error}`);
+		}
 		executed = true;
 	}
 }
