@@ -84,7 +84,7 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 		try {
 			await axios.get(url);
 		} catch {
-			console.log(`Error making GET request: ${error}`);
+			console.log(`Error making GET request`);
 		}
 		executed = true;
 	}
