@@ -8,6 +8,7 @@ import {
 } from 'discord.js';
 import ticketClose from '../../Functions/Ticket/close.js';
 import { formatCode, formatUser } from '../../utils.js';
+import axios from 'axios';
 
 export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 	const embed = interaction.message.embeds.at(0)!;
@@ -77,7 +78,14 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 			embeds: [updateEmbed],
 			components: [],
 		});
+		
+		const url = 'https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url);
 
+		try {
+			await axios.get(url);
+		} catch {
+			console.log(`Error making GET request: ${error}`);
+		}
 		executed = true;
 	}
 }
