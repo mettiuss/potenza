@@ -70,7 +70,7 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 				description +
 					`**Close Reason:** ${formatCode(reason)}\n**Log:** [${formatCode(
 						'Log URL'
-					)}](https://vindertech.itzmirko.it/file/?url=${attachment_url})`
+					)}](https://vindertech.mirkohubtv.it/file/?url=${attachment_url})`
 			)
 			.setFields(embed.fields);
 
