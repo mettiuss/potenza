@@ -2,6 +2,7 @@ import {
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
+	ColorResolvable,
 	EmbedBuilder,
 	ModalSubmitInteraction,
 	TextChannel,
@@ -22,7 +23,7 @@ export async function handleRequestModalSubmit(interaction: ModalSubmitInteracti
 	)) as TextChannel;
 
 	const embed = new EmbedBuilder()
-		.setColor('#00e3ff')
+		.setColor(interaction.client.color as ColorResolvable)
 		.setTitle('Nuova Richiesta di Supporto')
 		.setDescription(
 			`Ehi <@${interaction.user.id}>, la tua richiesta è in lavorazione!\n\nPer favore, **abbi pazienza**: appena un membro dello staff sarà disponibile, arriverà in tuo aiuto. Sii paziente!`

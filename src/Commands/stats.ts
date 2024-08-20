@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, ColorResolvable, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { buildUserActivityEmbed } from '../Functions/Stats/embed.js';
 import { lastExecutedCommandDescription } from '../Functions/Stats/lastExecuted.js';
@@ -69,7 +69,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle(`Numero di comandi eseguiti nell'ultimo mese`)
-						.setColor('#00e3ff')
+						.setColor(interaction.client.color as ColorResolvable)
 						.setDescription(makeGraph(list)),
 				],
 				ephemeral: true,
@@ -84,7 +84,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle(`Data ultimo comando eseguito`)
-						.setColor('#00e3ff')
+						.setColor(interaction.client.color as ColorResolvable)
 						.setDescription(await lastExecutedCommandDescription(interaction, vindertech.members)),
 				],
 			});

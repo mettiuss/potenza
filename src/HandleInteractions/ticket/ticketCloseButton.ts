@@ -1,6 +1,7 @@
 import {
 	ActionRowBuilder,
 	ButtonInteraction,
+	ColorResolvable,
 	EmbedBuilder,
 	ModalBuilder,
 	TextInputBuilder,
@@ -64,7 +65,7 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 		const description = embed.description?.split('**Channel:**')[0];
 
 		const updateEmbed = new EmbedBuilder()
-			.setColor('#00e3ff')
+			.setColor(interaction.client.color as ColorResolvable)
 			.setTitle(`:green_circle: Richiesta chiusa`)
 			.setDescription(
 				description +
@@ -78,7 +79,7 @@ export async function handleTicketCloseButton(interaction: ButtonInteraction) {
 			embeds: [updateEmbed],
 			components: [],
 		});
-		
+
 		const url = 'https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url);
 
 		try {

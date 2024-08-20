@@ -1,4 +1,11 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonInteraction,
+	ButtonStyle,
+	ColorResolvable,
+	EmbedBuilder,
+} from 'discord.js';
 import ticketOpen from '../../Functions/Ticket/open.js';
 import { formatUser } from '../../utils.js';
 
@@ -17,7 +24,7 @@ export async function handleTicketOpenButton(interaction: ButtonInteraction) {
 	const ticketId = await ticketOpen(interaction, user);
 	if (!ticketId) return;
 	const updateEmbed = new EmbedBuilder()
-		.setColor('#00e3ff')
+		.setColor(interaction.client.color as ColorResolvable)
 		.setTitle(
 			`:blue_circle: Richiesta di ${embed.title?.split('(')[1].split(')')[0]} presa in carico da ${
 				interaction.user.tag

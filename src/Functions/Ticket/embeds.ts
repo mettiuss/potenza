@@ -1,4 +1,11 @@
-import { ButtonInteraction, CommandInteraction, EmbedBuilder, ModalSubmitInteraction, User } from 'discord.js';
+import {
+	ButtonInteraction,
+	ColorResolvable,
+	CommandInteraction,
+	EmbedBuilder,
+	ModalSubmitInteraction,
+	User,
+} from 'discord.js';
 
 function getGuildIcon(interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
 	return interaction.guild && interaction.guild.iconURL()
@@ -13,7 +20,7 @@ export function createUserEmbed(
 	reason?: string
 ) {
 	let embed = new EmbedBuilder()
-		.setColor('#00e3ff')
+		.setColor(interaction.client.color as ColorResolvable)
 		.setTimestamp(new Date())
 		.setAuthor({
 			name: user.username,

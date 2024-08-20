@@ -6,5 +6,6 @@ declare module 'discord.js' {
 		commands: Collection<unknown, any>;
 		mongo: Collection<Document>;
 		log_channel: TextChannel;
+		color: string;
 	}
 }

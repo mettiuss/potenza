@@ -38,4 +38,6 @@ for (const file of eventFiles) {
 	});
 }
 
+client.color = '#00e3ff';
+
 export default client;
