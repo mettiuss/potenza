@@ -1,10 +1,21 @@
 import { ActionRowBuilder, ButtonInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { getUserChannel } from '../../Functions/Ticket/utils.js';
 
 export async function handleRequestButton(interaction: ButtonInteraction) {
 	const doc = await interaction.client.mongo.block.findOne({ _id: interaction.user.id });
 	if (doc)
 		return interaction.reply({
 			content: `Sei stato/a bloccato/a dal servizio Vindertech`,
+			ephemeral: true,
+		});
+
+	const userChannel = getUserChannel(interaction.guild!, interaction.user.id);
+
+	if (userChannel.size !== 0)
+		return interaction.reply({
+			content: `Hai già un ticket aperto, per ulteriori problemi scrivi direttamente nel canale <#${
+				userChannel.at(0)!.id
+			}>`,
 			ephemeral: true,
 		});
 
