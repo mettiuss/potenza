@@ -25,7 +25,8 @@ export async function handleRequestButton(interaction: ButtonInteraction) {
 	const descriptionInput = new TextInputBuilder()
 		.setCustomId('description')
 		.setLabel('descrizione del problema')
-		.setStyle(TextInputStyle.Paragraph);
+		.setStyle(TextInputStyle.Paragraph)
+		.setMaxLength(1010);
 
 	const platformInput = new TextInputBuilder()
 		.setCustomId('platform')
