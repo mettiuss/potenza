@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { buildUserActivityEmbed } from '../Functions/Stats/buildUserActivityEmbed.js';
-import { lastExecutedCommandDescription } from '../Functions/Stats/lastExecutedCommandDescription.js';
-import { makeGraph } from '../Functions/Stats/makeGraph.js';
+import { buildUserActivityEmbed } from '../Functions/Stats/embed.js';
+import { lastExecutedCommandDescription } from '../Functions/Stats/lastExecuted.js';
+import { makeGraph } from '../Functions/Stats/graph.js';
 
 function subtractMonths(date: Date, months: number): Date {
 	var dateOffset = 30 * 24 * 60 * 60 * 1000 * months;
