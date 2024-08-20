@@ -9,14 +9,17 @@ export default async (interaction: ChatInputCommandInteraction, user: User) => {
 			content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(user.id)} non è bloccato**`,
 			ephemeral: true,
 		});
-	await Promise.all([
-		interaction.client.mongo.block.deleteOne({ _id: user.id }),
-		interaction.client.log_channel.send({ embeds: [createBlockLogEmbed(interaction, user, 'block')] }),
-		interaction.client.mongo.logs.insertOne({
-			staff: interaction.user.id,
-			action: 'unblock',
-			at: new Date(),
-		}),
-	]);
-	return await interaction.reply(`**L'utente ${formatUser(user.id)} è stato sbloccato**`);
+
+	await interaction.deferReply();
+
+	await interaction.client.mongo.block.deleteOne({ _id: user.id });
+	await interaction.client.mongo.logs.insertOne({
+		staff: interaction.user.id,
+		action: 'unblock',
+		at: new Date(),
+	});
+
+	await interaction.client.log_channel.send({ embeds: [createBlockLogEmbed(interaction, user, 'block')] });
+
+	await interaction.editReply(`**L'utente ${formatUser(user.id)} è stato sbloccato**`);
 };
