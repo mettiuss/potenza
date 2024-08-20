@@ -1,4 +1,4 @@
-import { ButtonInteraction, ChatInputCommandInteraction, ModalSubmitInteraction, TextChannel, User } from 'discord.js';
+import { ChatInputCommandInteraction, ModalSubmitInteraction, TextChannel, User } from 'discord.js';
 import { getUserChannel } from './utils.js';
 import { formatUser } from '../../utils.js';
 import { createLogEmbed, createUserEmbed } from './embeds.js';
