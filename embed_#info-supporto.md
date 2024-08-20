@@ -43,12 +43,14 @@ Qui sei nel canale giusto, puoi richiedere supporto in pochi semplici passi.
 -   Ti preghiamo di essere paziente e di attendere cortesemente la risposta di un membro dello staff Vindertech, evitando continui solleciti.
 -   Ti preghiamo di mandare la tua richiesta UNA sola volta.
 -   Ti preghiamo di mandare UNA richiesta alla volta e, una volta inviata, di pazientare per l'apertura del ticket.
--   Ti pregiamo di non scrivere in DM allo staff Vindertech per richiedere supporto o sollecitare una risposta.
+-   Ti preghiamo di non scrivere in DM allo staff Vindertech per richiedere supporto o sollecitare una risposta.
 -   In caso di mancata risposta nel ticket dopo 48h, il ticket sarà automaticamente chiuso e può essere riaperto scrivendo nei DM di un membro dello staff Vindertech.
-    _NB. Tutte le regole vigenti all'interno del server ed i rispettivi provvedimenti sono validi anche all'interno del ticket. Grazie per la collaborazione._`
-    );
 
-    let embed3 = new EmbedBuilder().setColor('#00e3ff').setDescription(
-    `:mailbox_with_mail:  **Aiuta la Community**
-    Se hai riscontrato un problema e credi che possa essere utile a tutta la community, ti chiediamo di contribuire alla sua risoluzione segnalandolo ad Epic. Per farlo, è semplicissimo: puoi farlo direttamente in gioco. Grazie in anticipo se lo farai!`
-    );
+_NB. Tutte le regole vigenti all'interno del server ed i rispettivi provvedimenti sono validi anche all'interno del ticket. Grazie per la collaborazione._`
+);
+
+let embed3 = new EmbedBuilder().setColor('#00e3ff').setDescription(
+`:mailbox_with_mail: **Aiuta la Community**
+
+Se hai riscontrato un problema e credi che possa essere utile a tutta la community, ti chiediamo di contribuire alla sua risoluzione segnalandolo ad Epic. Per farlo, è semplicissimo: puoi farlo direttamente in gioco. Grazie in anticipo se lo farai!`
+);
