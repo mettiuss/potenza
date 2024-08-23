@@ -6,29 +6,27 @@ import {
 	ColorResolvable,
 	CommandInteraction,
 	EmbedBuilder,
-	ModalSubmitInteraction,
 	User,
 	GuildChannelCreateOptions,
 	PermissionsBitField,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
+	Client,
 } from 'discord.js';
 import { formatUser } from './utils.js';
 
 export const ELEMENTS_PAGE = 5;
 
-function getGuildIcon(interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
-	return interaction.guild && interaction.guild.iconURL()
-		? interaction.guild.iconURL()!
-		: 'https://cdn.discordapp.com/embed/avatars/0.png';
+function getGuildIcon(guild: Guild | null) {
+	return guild && guild.iconURL() ? guild.iconURL()! : 'https://cdn.discordapp.com/embed/avatars/0.png';
 }
 
-export function baseEmbed(interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction, user?: User) {
+export function baseEmbed(client: Client, guild: Guild | null, user?: User) {
 	let embed = new EmbedBuilder()
-		.setColor(interaction.client.color as ColorResolvable)
+		.setColor(client.color as ColorResolvable)
 		.setTimestamp(new Date())
-		.setFooter({ text: interaction.guild?.name!, iconURL: getGuildIcon(interaction) });
+		.setFooter({ text: guild ? guild.name : 'No name', iconURL: getGuildIcon(guild) });
 	if (user)
 		embed.setAuthor({
 			name: user.username,

@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs';
-import { Client, Collection, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import { MongoClient } from 'mongodb';
 
 const client = new Client({
@@ -9,6 +9,7 @@ const client = new Client({
 		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildMessages,
 	],
+	partials: [Partials.Message],
 });
 
 const mongo = new MongoClient(process.env.MONGO as string);

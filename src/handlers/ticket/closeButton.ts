@@ -41,7 +41,7 @@ export async function sendCloseMessage(
 
 		await user.send({
 			embeds: [
-				baseEmbed(interaction, user)
+				baseEmbed(interaction.client, interaction.guild, user)
 					.setTitle('**Richiesta Supporto Chiusa**')
 					.addFields(
 						{
@@ -143,7 +143,7 @@ export default async function (interaction: ButtonInteraction) {
 
 			const logMessage = await interaction.client.logChannel.send({
 				embeds: [
-					baseEmbed(interaction, ticketUser)
+					baseEmbed(interaction.client, interaction.guild, ticketUser)
 						.setTitle('**Richiesta Supporto Chiusa**')
 						.addFields(
 							{

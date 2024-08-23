@@ -31,7 +31,7 @@ export default async function (interaction: ButtonInteraction) {
 
 	ticketChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Accettata**')
 				.setDescription(
 					`Hey <@${user.id}>, la tua richiesta è stata accettata e per questo abbiamo aperto un ticket. Un membro del team Vindertech ti risponderà il prima possibile.`
@@ -64,7 +64,7 @@ export default async function (interaction: ButtonInteraction) {
 
 	interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Aperta**')
 				.addFields(
 					{

@@ -83,7 +83,7 @@ async function ticketOpen(interaction: ChatInputCommandInteraction, user: User) 
 
 	ticketChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Accettata**')
 				.setDescription(
 					`Hey <@${user.id}>, la tua richiesta è stata accettata e per questo abbiamo aperto un ticket. Un membro del team Vindertech ti risponderà il prima possibile.`
@@ -107,7 +107,7 @@ async function ticketOpen(interaction: ChatInputCommandInteraction, user: User) 
 
 	interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Aperta**')
 				.addFields(
 					{
@@ -166,7 +166,7 @@ async function ticketClose(interaction: ChatInputCommandInteraction, user: User,
 
 	const logMessage = await interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Chiusa**')
 				.addFields(
 					{
@@ -199,7 +199,7 @@ async function ticketClose(interaction: ChatInputCommandInteraction, user: User,
 			.setTitle(`:green_circle: Richiesta chiusa`)
 			.setDescription(
 				`**User:** ${formatUser(user.id)}\n**Staff:** ${formatUser(
-					interaction.user.id
+					ticketDoc.staff
 				)}\n**Close Reason:** ${formatCode(reason)}\n**Log:** [${formatCode(
 					'Log URL'
 				)}](https://vindertech.mirkohubtv.it/file/?url=${attachment_url})`
@@ -257,7 +257,7 @@ async function ticketBlock(interaction: ChatInputCommandInteraction, user: User)
 
 	await interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Utente bloccato**')
 				.addFields(
 					{
@@ -296,7 +296,7 @@ async function ticketUnblock(interaction: ChatInputCommandInteraction, user: Use
 
 	await interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Utente sbloccato**')
 				.addFields(
 					{

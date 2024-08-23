@@ -12,7 +12,7 @@ export default async function (interaction: ButtonInteraction) {
 
 	interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction, user)
+			baseEmbed(interaction.client, interaction.guild, user)
 				.setTitle('**Richiesta Supporto Ignorata**')
 				.addFields(
 					{
