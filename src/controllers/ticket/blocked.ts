@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { formatUser } from '../../utils/utils.js';
+import { formatCode, formatUser } from '../../utils/utils.js';
 
 export async function ticketBlocked(interaction: ChatInputCommandInteraction) {
 	const docs = await interaction.client.mongo.block.find().toArray();
@@ -81,9 +81,9 @@ function makeEmbed(docs: any, current_page: number) {
 
 	let description = '';
 	elements.forEach((doc: any) => {
-		description += `**User:** ${formatUser(doc._id)}\n**Staff:** <@${doc.staff}>\n**Date:** <t:${Math.floor(
-			doc.at.getTime() / 1000
-		)}:f>\n\n`;
+		description += `**User:** ${formatUser(doc._id)}\n**Staff:** <@${doc.staff}>\n**Reason:** ${formatCode(
+			doc.reason
+		)}\n**Date:** <t:${Math.floor(doc.at.getTime() / 1000)}:f>\n\n`;
 	});
 
 	return new EmbedBuilder({

@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction, User } from 'discord.js';
-import { formatUser } from '../../utils/utils.js';
+import { formatCode, formatUser } from '../../utils/utils.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
-export async function ticketBlock(interaction: ChatInputCommandInteraction, user: User) {
+export async function ticketBlock(interaction: ChatInputCommandInteraction, user: User, reason: string) {
 	const doc = await interaction.client.mongo.block.findOne({ _id: user.id });
 	if (doc)
 		return interaction.reply({
@@ -19,6 +19,7 @@ export async function ticketBlock(interaction: ChatInputCommandInteraction, user
 			_id: user.id,
 			staff: interaction.user.id,
 			at: new Date(),
+			reason,
 		}),
 		interaction.client.mongo.logs.insertOne({
 			staff: interaction.user.id,
@@ -29,10 +30,12 @@ export async function ticketBlock(interaction: ChatInputCommandInteraction, user
 			embeds: [
 				new PotenzaEmbedBuilder(interaction.guild)
 					.setTitle('**Utente bloccato**')
-					.addWhoFields(interaction.user.id, user.id),
+					.addWhoFields(interaction.user.id, user.id, reason),
 			],
 		}),
 	]);
 
-	await interaction.editReply(`**L'utente ${formatUser(user.id)} è stato bloccato**`);
+	await interaction.editReply(
+		`**L'utente ${formatUser(user.id)} è stato bloccato con motivazione ${formatCode(reason)}**`
+	);
 }

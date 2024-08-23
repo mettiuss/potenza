@@ -36,6 +36,9 @@ export const data = new SlashCommandBuilder()
 			.addUserOption((input) =>
 				input.setName('utente').setDescription('Utente a cui si riferisce questa azione').setRequired(true)
 			)
+			.addStringOption((input) =>
+				input.setName('motivazione').setDescription('La motivazione di questa azione').setRequired(true)
+			)
 	)
 	.addSubcommand((subcommand) =>
 		subcommand
@@ -51,15 +54,17 @@ export const data = new SlashCommandBuilder()
 	.setDMPermission(false);
 export async function execute(interaction: ChatInputCommandInteraction) {
 	const user = interaction.options.getUser('utente');
+	let reason;
 
 	switch (interaction.options.getSubcommand()) {
 		case 'open':
 			return ticketOpen(interaction, user!);
 		case 'close':
-			const reason = interaction.options.getString('motivazione', true);
+			reason = interaction.options.getString('motivazione', true);
 			return ticketClose(interaction, user!, reason);
 		case 'block':
-			return ticketBlock(interaction, user!);
+			reason = interaction.options.getString('motivazione', true);
+			return ticketBlock(interaction, user!, reason);
 		case 'unblock':
 			return ticketUnblock(interaction, user!);
 		case 'blocked':
