@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, User } from 'discord.js';
+import { ChatInputCommandInteraction, ColorResolvable, TextChannel, User, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { formatCode, formatUser } from '../utils/utils.js';
 import {
@@ -190,6 +190,38 @@ async function ticketClose(interaction: ChatInputCommandInteraction, user: User,
 	});
 
 	const attachment_url = logMessage.attachments.at(0)!.url;
+
+	const ticketDoc = await interaction.client.mongo.ticket.findOne({ _id: user.id });
+
+	if (ticketDoc) {
+		const updateEmbed = new EmbedBuilder()
+			.setColor(interaction.client.color as ColorResolvable)
+			.setTitle(`:green_circle: Richiesta chiusa`)
+			.setDescription(
+				`**User:** ${formatUser(user.id)}\n**Staff:** ${formatUser(
+					interaction.user.id
+				)}\n**Close Reason:** ${formatCode(reason)}\n**Log:** [${formatCode(
+					'Log URL'
+				)}](https://vindertech.mirkohubtv.it/file/?url=${attachment_url})`
+			)
+			.setFields(
+				{
+					name: 'Descrizione',
+					value: '```\n' + ticketDoc.description + '\n```',
+				},
+				{ name: 'Piattaforma', value: '```\n' + ticketDoc.platform + '\n```' }
+			);
+
+		const nuoveRichiesteChannel = (await interaction.client.channels.fetch(
+			process.env.NUOVE_RICHIESTE!
+		)) as TextChannel;
+		const message = await nuoveRichiesteChannel.messages.fetch(ticketDoc.message);
+
+		await message.edit({
+			embeds: [updateEmbed],
+			components: [],
+		});
+	}
 
 	const url = 'https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url);
 	axios.get(url);
