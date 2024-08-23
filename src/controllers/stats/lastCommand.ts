@@ -35,10 +35,10 @@ async function lastExecutedCommandDescription(
 }
 
 export async function statsLastCommand(interaction: ChatInputCommandInteraction) {
+	if (!interaction.guild) return;
 	await interaction.deferReply({ ephemeral: true });
-	const guild = await interaction.client.guilds.fetch(process.env.GUILD_ID!);
-	await guild.members.fetch();
-	const vindertech = (await guild.roles.fetch('659513332218331155'))!;
+	await interaction.guild.members.fetch();
+	const vindertech = (await interaction.guild.roles.fetch('659513332218331155'))!;
 
 	return await interaction.editReply({
 		embeds: [
