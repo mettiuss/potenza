@@ -1,5 +1,8 @@
-import { Collection, EmbedBuilder, GuildMember, Interaction, User } from 'discord.js';
-import { formatCode } from './utils.js';
+import { ChatInputCommandInteraction } from 'discord.js';
+
+import { EmbedBuilder, User } from 'discord.js';
+import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
+import { formatCode } from '../../utils/utils.js';
 
 function subtractDays(date: Date, days: number): Date {
 	var dateOffset = 24 * 60 * 60 * 1000 * days;
@@ -7,13 +10,19 @@ function subtractDays(date: Date, days: number): Date {
 	return date;
 }
 
-export interface LogRecord {
+function subtractMonths(date: Date, months: number): Date {
+	var dateOffset = 30 * 24 * 60 * 60 * 1000 * months;
+	date.setTime(date.getTime() - dateOffset);
+	return date;
+}
+
+interface LogRecord {
 	staff: string;
 	action: 'open' | 'close' | 'block' | 'unblock';
 	at: Date;
 }
 
-export function buildUserActivityEmbed(user: User, docs: any): EmbedBuilder {
+function buildUserActivityEmbed(user: User, docs: any): EmbedBuilder {
 	return new EmbedBuilder()
 		.setAuthor({
 			name: user.username,
@@ -115,7 +124,7 @@ export function buildUserActivityEmbed(user: User, docs: any): EmbedBuilder {
 		);
 }
 
-export function makeGraph(list: any) {
+function makeGraph(list: any) {
 	const userMap: [string, number][] = [];
 	list.forEach((el: any) => {
 		let found = false;
@@ -148,35 +157,35 @@ export function makeGraph(list: any) {
 	return description;
 }
 
-export async function lastExecutedCommandDescription(
-	interaction: Interaction,
-	members: Collection<string, GuildMember>
-): Promise<string> {
-	let memberTimes: [string, number | null][] = [];
+export async function statsActivity(interaction: ChatInputCommandInteraction) {
+	const user_activity = interaction.options.getUser('utente');
 
-	for (let member of members) {
-		let doc = await interaction.client.mongo.logs.findOne({ staff: member[1].id }, { sort: { at: -1 } });
-		if (doc) {
-			memberTimes.push([member[1].id, Math.floor(doc.at.getTime() / 1000)]);
-		} else {
-			memberTimes.push([member[1].id, null]);
-		}
+	if (user_activity) {
+		const docs = await interaction.client.mongo.logs.find({ staff: user_activity.id }).toArray();
+
+		return await interaction.reply({
+			embeds: [buildUserActivityEmbed(user_activity, docs)],
+			ephemeral: true,
+		});
 	}
 
-	let desc = '';
+	const action = interaction.options.getString('tipo');
+	let docs;
+	if (action) {
+		docs = interaction.client.mongo.logs.find({
+			$and: [{ action: action }, { at: { $gte: subtractMonths(new Date(), 1) } }],
+		});
+	} else {
+		docs = interaction.client.mongo.logs.find({ at: { $gte: subtractMonths(new Date(), 1) } });
+	}
+	const list = await docs.toArray();
 
-	memberTimes.sort(function (a, b) {
-		if (!b[1]) return -1;
-		if (!a[1]) return 1;
-		return b[1] - a[1];
+	return await interaction.reply({
+		embeds: [
+			new PotenzaEmbedBuilder(null, false)
+				.setTitle(`Numero di comandi eseguiti nell'ultimo mese`)
+				.setDescription(makeGraph(list)),
+		],
+		ephemeral: true,
 	});
-
-	for (let member of memberTimes) {
-		if (!member[1]) {
-			desc += `<@${member[0]}> | No log registered\n`;
-		} else {
-			desc += `<@${member[0]}> | <t:${member[1]}:f>\n`;
-		}
-	}
-	return desc;
 }
