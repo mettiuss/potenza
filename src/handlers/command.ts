@@ -1,6 +1,6 @@
 import { CommandInteraction } from 'discord.js';
 
-export async function handleCommand(interaction: CommandInteraction) {
+export default async function (interaction: CommandInteraction) {
 	const command = interaction.client.commands.get(interaction.commandName);
 	if (!command) return;
 

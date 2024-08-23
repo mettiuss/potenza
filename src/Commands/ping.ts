@@ -4,6 +4,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 export const data = new SlashCommandBuilder().setName('ping').setDescription(`Ritorna la latenza del bot`);
 
 function formatMs(ms: number): string {
+	if (ms > 1000 * 60 * 60 * 24 * 2) return `${Math.round(ms / (1000 * 60 * 60 * 24))} days`;
+
 	if (ms > 1000 * 60 * 60 * 2) return `${Math.round(ms / (1000 * 60 * 60))} hours`;
 
 	if (ms > 1000 * 60 * 2) return `${Math.round(ms / (1000 * 60))} minutes`;

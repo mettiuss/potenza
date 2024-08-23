@@ -12,11 +12,13 @@ const client = new Client({
 });
 
 const mongo = new MongoClient(process.env.MONGO as string);
+const mongoDb = mongo.db(process.env.MONGO_DB);
 client.mongo = {
-	block: mongo.db(process.env.MONGO_DB).collection('ticket-block'),
-	descriptions: mongo.db(process.env.MONGO_DB).collection('ticket-descriptions'),
-	logs: mongo.db(process.env.MONGO_DB).collection('logs'),
-	feedback: mongo.db(process.env.MONGO_DB).collection('feedback'),
+	block: mongoDb.collection('ticket-block'),
+	ticket: mongoDb.collection('ticket'),
+	descriptions: mongoDb.collection('ticket-descriptions'),
+	logs: mongoDb.collection('logs'),
+	feedback: mongoDb.collection('feedback'),
 };
 
 client.commands = new Collection();
