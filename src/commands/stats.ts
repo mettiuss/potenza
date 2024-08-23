@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, ColorResolvable, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { buildUserActivityEmbed, lastExecutedCommandDescription, makeGraph } from '../utils/stats.js';
+import { PotenzaEmbedBuilder } from '../utils/PotenzaEmbedBuilder.js';
 
 function subtractMonths(date: Date, months: number): Date {
 	var dateOffset = 30 * 24 * 60 * 60 * 1000 * months;
@@ -76,9 +77,8 @@ async function statsActivity(interaction: ChatInputCommandInteraction) {
 
 	return await interaction.reply({
 		embeds: [
-			new EmbedBuilder()
+			new PotenzaEmbedBuilder(null, false)
 				.setTitle(`Numero di comandi eseguiti nell'ultimo mese`)
-				.setColor(interaction.client.color as ColorResolvable)
 				.setDescription(makeGraph(list)),
 		],
 		ephemeral: true,
@@ -93,9 +93,8 @@ async function lastCommandActivity(interaction: ChatInputCommandInteraction) {
 
 	return await interaction.editReply({
 		embeds: [
-			new EmbedBuilder()
+			new PotenzaEmbedBuilder(null, false)
 				.setTitle(`Data ultimo comando eseguito`)
-				.setColor(interaction.client.color as ColorResolvable)
 				.setDescription(await lastExecutedCommandDescription(interaction, vindertech.members)),
 		],
 	});

@@ -7,6 +7,5 @@ declare module 'discord.js' {
 		mongo: Collection<Document>;
 		logChannel: TextChannel;
 		nuoveRichiesteChannel: TextChannel;
-		color: string;
 	}
 }

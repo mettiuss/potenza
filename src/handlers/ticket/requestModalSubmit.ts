@@ -1,19 +1,13 @@
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	ColorResolvable,
-	EmbedBuilder,
-	ModalSubmitInteraction,
-} from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalSubmitInteraction } from 'discord.js';
 import { formatUser } from '../../utils/utils.js';
+import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ModalSubmitInteraction) {
 	const description = interaction.fields.getTextInputValue('description');
 	const platform = interaction.fields.getTextInputValue('platform').toUpperCase();
 
 	if (!['PC', 'SWITCH', 'PS', 'XBOX', 'MOBILE'].includes(platform))
-		return interaction.reply({
+		return await interaction.reply({
 			content: '**<:FNIT_Stop:857617083185758208> Piattaforma non valida**',
 			ephemeral: true,
 		});
@@ -23,17 +17,10 @@ export default async function (interaction: ModalSubmitInteraction) {
 		ephemeral: true,
 	});
 
-	const embed = new EmbedBuilder()
-		.setColor(interaction.client.color as ColorResolvable)
+	const embed = new PotenzaEmbedBuilder(null, false)
 		.setTitle(`:red_circle: Nuova richiesta di supporto (${interaction.user.tag})`)
 		.setDescription(`**User:** ${formatUser(interaction.user.id)}`)
-		.setFields(
-			{
-				name: 'Descrizione',
-				value: '```\n' + description + '\n```',
-			},
-			{ name: 'Piattaforma', value: '```\n' + platform + '\n```' }
-		);
+		.addProblemFields({ description, platform });
 
 	const nuoveRichiesteMessage = await interaction.client.nuoveRichiesteChannel.send({
 		content: `<@&659513332218331155>`,

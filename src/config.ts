@@ -12,16 +12,17 @@ const client = new Client({
 	partials: [Partials.Message],
 });
 
+// Initialize Mongodb
 const mongo = new MongoClient(process.env.MONGO as string);
 const mongoDb = mongo.db(process.env.MONGO_DB);
 client.mongo = {
 	block: mongoDb.collection('ticket-block'),
 	ticket: mongoDb.collection('ticket'),
-	descriptions: mongoDb.collection('ticket-descriptions'),
 	logs: mongoDb.collection('logs'),
 	feedback: mongoDb.collection('feedback'),
 };
 
+// Load Commands
 client.commands = new Collection();
 const commandFiles = readdirSync('./dist/commands').filter((file) => file.endsWith('.js'));
 
@@ -29,6 +30,7 @@ for (const file of commandFiles) {
 	import(`../dist/commands/${file}`).then((command) => client.commands.set(command.data.name, command));
 }
 
+// Load Events
 const eventFiles = readdirSync('./dist/events').filter((file) => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -40,7 +42,5 @@ for (const file of eventFiles) {
 		}
 	});
 }
-
-client.color = '#00e3ff';
 
 export default client;

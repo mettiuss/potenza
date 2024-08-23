@@ -1,72 +1,14 @@
 import {
 	ActionRowBuilder,
-	ButtonBuilder,
 	ButtonInteraction,
-	ButtonStyle,
-	ChatInputCommandInteraction,
-	ColorResolvable,
-	EmbedBuilder,
 	ModalBuilder,
-	ModalSubmitInteraction,
 	TextChannel,
 	TextInputBuilder,
 	TextInputStyle,
-	User,
 } from 'discord.js';
-import { formatCode, formatUser, hasStaffPermission } from '../../utils/utils.js';
-import { baseEmbed, getUserChannel } from '../../utils/ticket.js';
-import discordTranscripts from 'discord-html-transcripts';
-import axios from 'axios';
-
-export async function deleteTicketChannel(channel: TextChannel) {
-	await channel.edit({ topic: '' });
-	await channel.delete();
-}
-
-export async function sendCloseMessage(
-	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
-	user: User,
-	reason: string
-) {
-	try {
-		const userId = interaction.user.id; // UserID del Vindertech
-		const LikeButton = new ButtonBuilder()
-			.setCustomId(`feedback_like_${userId}`)
-			.setLabel('👍')
-			.setStyle(ButtonStyle.Primary);
-		const NoLikeButton = new ButtonBuilder()
-			.setCustomId(`feedback_nolike_${userId}`)
-			.setLabel('👎')
-			.setStyle(ButtonStyle.Danger);
-
-		await user.send({
-			embeds: [
-				baseEmbed(interaction.client, interaction.guild, user)
-					.setTitle('**Richiesta Supporto Chiusa**')
-					.addFields(
-						{
-							name: 'Staffer',
-							value: `<@${interaction.user.id}> | ID: ` + '`' + interaction.user.id + '`',
-							inline: false,
-						},
-						{
-							name: 'Motivazione',
-							value: reason!,
-							inline: false,
-						},
-						{
-							name: '**Feedback**',
-							value: `Ci auguriamo che il servizio di supporto Vindertech ti sia stato utile nella risoluzione del tuo problema e abbia soddisfatto le tue aspettative. 
-**La tua opinione conta per noi!**
-Ti invitiamo a lasciare un Feedback qui di seguito per permetterci di migliorare sempre di più il servizio offerto e continuare ad aiutare tanti altri utenti come te. Grazie in anticipo!`,
-							inline: false,
-						}
-					),
-			],
-			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(LikeButton, NoLikeButton)],
-		});
-	} catch {}
-}
+import { formatCode, formatUser, getUserChannel, hasStaffPermission } from '../../utils/utils.js';
+import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
+import { sendCloseMessage, sendLogGetTranscript } from '../../controllers/ticket/close.js';
 
 export default async function (interaction: ButtonInteraction) {
 	if (!hasStaffPermission(interaction) || !interaction.guild || !interaction.channel) return;
@@ -74,6 +16,12 @@ export default async function (interaction: ButtonInteraction) {
 	const ticketDoc =
 		(await interaction.client.mongo.ticket.findOne({ channel: interaction.channel.id })) ||
 		(await interaction.client.mongo.ticket.findOne({ message: interaction.message.id }));
+
+	if (!ticketDoc)
+		return await interaction.reply({
+			content: '<:FNIT_Stop:857617083185758208> **Ticket not found**',
+			ephemeral: true,
+		});
 
 	const ticketUser = await interaction.client.users.fetch(ticketDoc._id);
 	if (!ticketUser)
@@ -126,53 +74,29 @@ export default async function (interaction: ButtonInteraction) {
 				});
 			} catch {}
 
-			deleteTicketChannel(userChannel);
+			const attachment_url = await sendLogGetTranscript(
+				userChannel,
+				interaction.client,
+				interaction.guild,
+				interaction.user,
+				ticketUser,
+				reason
+			);
 
-			sendCloseMessage(submitted, ticketUser, reason);
+			await Promise.all([
+				(async () => {
+					await userChannel.edit({ topic: '' });
+					await userChannel.delete();
+				})(),
+				sendCloseMessage(submitted, ticketUser, reason),
+				interaction.client.mongo.logs.insertOne({
+					staff: interaction.user.id,
+					action: 'close',
+					at: new Date(),
+				}),
+			]);
 
-			interaction.client.mongo.logs.insertOne({
-				staff: interaction.user.id,
-				action: 'close',
-				at: new Date(),
-			});
-
-			const attachment = await discordTranscripts.createTranscript(userChannel, {
-				saveImages: true,
-				poweredBy: false,
-			});
-
-			const logMessage = await interaction.client.logChannel.send({
-				embeds: [
-					baseEmbed(interaction.client, interaction.guild, ticketUser)
-						.setTitle('**Richiesta Supporto Chiusa**')
-						.addFields(
-							{
-								name: 'Staffer',
-								value: `<@${interaction.user.id}> | ID: ${interaction.user.id}`,
-								inline: false,
-							},
-							{
-								name: 'Utente',
-								value: `<@${ticketUser.id}> | ID: ${ticketUser.id}`,
-								inline: false,
-							},
-							{
-								name: 'Motivazione',
-								value: reason,
-								inline: false,
-							}
-						),
-				],
-				files: [attachment],
-			});
-
-			const attachment_url = logMessage.attachments.at(0)!.url;
-
-			const url = 'https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url);
-			axios.get(url);
-
-			const updateEmbed = new EmbedBuilder()
-				.setColor(interaction.client.color as ColorResolvable)
+			const updateEmbed = new PotenzaEmbedBuilder(null, false)
 				.setTitle(`:green_circle: Richiesta chiusa`)
 				.setDescription(
 					`**User:** ${formatUser(ticketUser.id)}\n**Staff:** ${formatUser(
@@ -181,13 +105,7 @@ export default async function (interaction: ButtonInteraction) {
 						'Log URL'
 					)}](https://vindertech.mirkohubtv.it/file/?url=${attachment_url})`
 				)
-				.setFields(
-					{
-						name: 'Descrizione',
-						value: '```\n' + ticketDoc.description + '\n```',
-					},
-					{ name: 'Piattaforma', value: '```\n' + ticketDoc.platform + '\n```' }
-				);
+				.addProblemFields(ticketDoc);
 
 			const nuoveRichiesteChannel = (await interaction.client.channels.fetch(
 				process.env.NUOVE_RICHIESTE!

@@ -1,6 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 import { formatUser, hasStaffPermission } from '../../utils/utils.js';
-import { baseEmbed } from '../../utils/ticket.js';
+import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ButtonInteraction) {
 	if (!hasStaffPermission(interaction, true)) return;
@@ -12,20 +12,9 @@ export default async function (interaction: ButtonInteraction) {
 
 	interaction.client.logChannel.send({
 		embeds: [
-			baseEmbed(interaction.client, interaction.guild, user)
+			new PotenzaEmbedBuilder(interaction.guild)
 				.setTitle('**Richiesta Supporto Ignorata**')
-				.addFields(
-					{
-						name: 'Staffer',
-						value: `<@${interaction.user.id}> | ID: ${interaction.user.id}`,
-						inline: false,
-					},
-					{
-						name: 'Utente',
-						value: user ? `<@${user.id}> | ID: ${user.id}` : 'sconosciuto',
-						inline: false,
-					}
-				),
+				.addWhoFields(interaction.user.id, user?.id),
 		],
 	});
 
