@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { readdirSync } from 'fs';
 import { REST, Routes } from 'discord.js';
 
-const { TOKEN, APP_ID, GUILD_ID, DEVELOPMENT } = process.env;
+const { TOKEN, APP_ID, GUILD_ID, NODE_ENV } = process.env;
 
 // Fetch the commands
 const commands = [];
@@ -16,7 +16,8 @@ for (const file of commandFiles) {
 // Register the commands
 const rest = new REST().setToken(TOKEN!);
 
-const route = DEVELOPMENT ? Routes.applicationGuildCommands(APP_ID!, GUILD_ID!) : Routes.applicationCommands(APP_ID!);
+const route =
+	NODE_ENV == 'DEV' ? Routes.applicationGuildCommands(APP_ID!, GUILD_ID!) : Routes.applicationCommands(APP_ID!);
 
 try {
 	await rest.put(route, {

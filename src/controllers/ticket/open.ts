@@ -65,7 +65,7 @@ export function createChannelCreateOptions(interaction: CommandInteraction | But
 			],
 		},
 	];
-	for (let id of JSON.parse(process.env.STAFF!)) {
+	for (let id of JSON.parse(process.env.STAFF_TICKET!)) {
 		permissionOverwrites.push({ id: id, allow: staffPerms });
 	}
 	return {

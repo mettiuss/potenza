@@ -12,7 +12,7 @@ export function hasStaffPermission(interaction: ButtonInteraction, elite: boolea
 	if (!(interaction.member instanceof GuildMember)) return false;
 
 	let allowed = false;
-	const staffRoles = elite ? JSON.parse(process.env.ELITE_STAFF!) : JSON.parse(process.env.STAFF!);
+	const staffRoles = elite ? JSON.parse(process.env.ELITE_STAFF_TICKET!) : JSON.parse(process.env.STAFF_TICKET!);
 	for (const id of staffRoles) {
 		if (interaction.member.roles.cache.has(id)) allowed = true;
 	}
