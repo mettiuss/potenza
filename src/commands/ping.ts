@@ -5,7 +5,7 @@ import { PotenzaEmbedBuilder } from '../utils/PotenzaEmbedBuilder.js';
 
 export const data = new SlashCommandBuilder().setName('ping').setDescription(`Ritorna la latenza del bot`);
 export async function execute(interaction: ChatInputCommandInteraction) {
-	const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
+	const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true, ephemeral: true });
 
 	const clientPing = interaction.client.ws.ping;
 	const messagePing = sent.createdTimestamp - interaction.createdTimestamp;
