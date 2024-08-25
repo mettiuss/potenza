@@ -6,9 +6,9 @@ export async function ticketBlock(interaction: ChatInputCommandInteraction, user
 	const doc = await interaction.client.mongo.block.findOne({ _id: user.id });
 	if (doc)
 		return interaction.reply({
-			content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(user.id)} è già stato bloccato da <@${
+			content: `<:FNIT_Stop:857617083185758208> L'utente ${formatUser(user.id)} è già stato bloccato da <@${
 				doc.staff
-			}> il <t:${Math.floor(doc.at.getTime() / 1000)}:f>**`,
+			}> il <t:${Math.floor(doc.at.getTime() / 1000)}:f>`,
 			ephemeral: true,
 		});
 

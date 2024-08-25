@@ -8,6 +8,7 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildVoiceStates,
 	],
 	partials: [Partials.Message],
 });
@@ -19,6 +20,7 @@ client.mongo = {
 	block: mongoDb.collection('ticket-block'),
 	ticket: mongoDb.collection('ticket'),
 	logs: mongoDb.collection('logs'),
+	channel: mongoDb.collection('channel'),
 	feedback: mongoDb.collection('feedback'),
 };
 

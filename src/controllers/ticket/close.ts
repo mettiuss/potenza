@@ -95,9 +95,9 @@ export async function ticketClose(interaction: ChatInputCommandInteraction, user
 	const userChannel = getUserChannel(interaction.guild, user.id);
 	if (!userChannel)
 		return interaction.reply({
-			content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
+			content: `<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
 				user.id
-			)} non possiede nessun ticket aperto.**`,
+			)} non possiede nessun ticket aperto.`,
 			ephemeral: true,
 		});
 

@@ -4,7 +4,8 @@ import { createChannelCreateOptions } from '../../controllers/ticket/open.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ButtonInteraction) {
-	if (!hasStaffPermission(interaction) || !interaction.guild) return;
+	if (!interaction.member || !hasStaffPermission(interaction.member, process.env.STAFF_TICKET!) || !interaction.guild)
+		return;
 
 	const ticketDoc = await interaction.client.mongo.ticket.findOne({ message: interaction.message.id });
 

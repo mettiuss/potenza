@@ -6,7 +6,7 @@ export async function ticketUnblock(interaction: ChatInputCommandInteraction, us
 	const doc = await interaction.client.mongo.block.findOne({ _id: user.id });
 	if (!doc)
 		return await interaction.reply({
-			content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(user.id)} non è bloccato**`,
+			content: `<:FNIT_Stop:857617083185758208> L'utente ${formatUser(user.id)} non è bloccato`,
 			ephemeral: true,
 		});
 

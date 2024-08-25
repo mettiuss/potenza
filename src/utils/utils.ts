@@ -1,4 +1,4 @@
-import { ButtonInteraction, ChannelType, Guild, GuildMember, TextChannel } from 'discord.js';
+import { APIInteractionGuildMember, ButtonInteraction, ChannelType, Guild, GuildMember, TextChannel } from 'discord.js';
 
 export function formatUser(userId: string): string {
 	return '<@' + userId + '>' + ' (`' + userId + '`)';
@@ -8,13 +8,12 @@ export function formatCode(string: string): string {
 	return '`' + string + '`';
 }
 
-export function hasStaffPermission(interaction: ButtonInteraction, elite: boolean = false): boolean {
-	if (!(interaction.member instanceof GuildMember)) return false;
+export function hasStaffPermission(member: GuildMember | APIInteractionGuildMember, staff_env: string): boolean {
+	if (!(member instanceof GuildMember)) return false;
 
 	let allowed = false;
-	const staffRoles = elite ? JSON.parse(process.env.ELITE_STAFF_TICKET!) : JSON.parse(process.env.STAFF_TICKET!);
-	for (const id of staffRoles) {
-		if (interaction.member.roles.cache.has(id)) allowed = true;
+	for (const id of JSON.parse(staff_env)) {
+		if (member.roles.cache.has(id)) allowed = true;
 	}
 
 	return allowed;

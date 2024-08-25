@@ -11,7 +11,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 	const messagePing = sent.createdTimestamp - interaction.createdTimestamp;
 	const clientUptime = formatMilliseconds(interaction.client.uptime || 0);
 
-	const embed = new PotenzaEmbedBuilder(interaction.guild).setDescription(
+	const embed = new PotenzaEmbedBuilder(null, false).setDescription(
 		`**Pong Client** 🏓   [${clientPing} ms]\n**Pong Messaggio** 📧 [${messagePing} ms]\n**Uptime Client** :stopwatch:  [${clientUptime}]`
 	);
 

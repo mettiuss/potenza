@@ -8,7 +8,7 @@ export default async function (interaction: ModalSubmitInteraction) {
 
 	if (!['PC', 'SWITCH', 'PS', 'XBOX', 'MOBILE'].includes(platform))
 		return await interaction.reply({
-			content: '**<:FNIT_Stop:857617083185758208> Piattaforma non valida**',
+			content: '<:FNIT_Stop:857617083185758208> Piattaforma non valida',
 			ephemeral: true,
 		});
 

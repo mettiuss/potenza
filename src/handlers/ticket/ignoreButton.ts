@@ -3,7 +3,7 @@ import { formatUser, hasStaffPermission } from '../../utils/utils.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ButtonInteraction) {
-	if (!hasStaffPermission(interaction, true)) return;
+	if (!interaction.member || !hasStaffPermission(interaction.member, process.env.ELITE_STAFF_TICKET!)) return;
 
 	interaction.message.delete();
 

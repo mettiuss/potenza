@@ -11,7 +11,13 @@ import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 import { sendCloseMessage, sendLogGetTranscript } from '../../controllers/ticket/close.js';
 
 export default async function (interaction: ButtonInteraction) {
-	if (!hasStaffPermission(interaction) || !interaction.guild || !interaction.channel) return;
+	if (
+		!interaction.member ||
+		!hasStaffPermission(interaction.member, process.env.STAFF_TICKET!) ||
+		!interaction.guild ||
+		!interaction.channel
+	)
+		return;
 
 	const ticketDoc =
 		(await interaction.client.mongo.ticket.findOne({ channel: interaction.channel.id })) ||
@@ -61,9 +67,9 @@ export default async function (interaction: ButtonInteraction) {
 
 			if (!userChannel)
 				return submitted.reply({
-					content: `**<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
+					content: `<:FNIT_Stop:857617083185758208> L'utente ${formatUser(
 						ticketUser.id
-					)} non possiede nessun ticket aperto.**`,
+					)} non possiede nessun ticket aperto.`,
 					ephemeral: true,
 				});
 
