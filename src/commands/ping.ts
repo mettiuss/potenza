@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, ColorResolvable, EmbedBuilder } from 'discord.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { formatMilliseconds } from '../controllers/ping.js';
 import { PotenzaEmbedBuilder } from '../utils/PotenzaEmbedBuilder.js';

@@ -6,7 +6,7 @@ _Lo staff Vindertech potrebbe essere in cerca di nuovi membri, se sei interessat
 Prima di iniziare risponderò qui ad alcune domande che potresti esserti posto/a:
 
 > **Cosa significa far parte dello staff Vindertech?**
-> Gli utenti con il ruolo Vindertech si dedicano in modo volontario ad aiutare gratuitamente la community per problemi tecnici nel gioco di Fortnite. Più nel dettaglio, il loro compito è quello di occuparsi delle richieste ricevute nel canale <#683363814137266207>.
+> Gli utenti con il ruolo Vindertech si dedicano in modo volontario ad aiutare gratuitamente la community per problemi tecnici nel gioco di Fortnite. Più nel dettaglio, il loro compito è quello di occuparsi delle richieste ricevute dagli utenti.
 
 > **Ci sono dei requisiti?**
 > Per far parte dello staff Vindertech devi avere almeno **16 anni**, avere buone conoscenze in campo tecnico, essere disponibile ad aiutare gli altri in maniera gratuita e essere attivo/a nel server.
