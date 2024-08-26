@@ -28,8 +28,10 @@ async function createChannel(oldState: VoiceState, newState: VoiceState) {
 				allow: [PermissionFlagsBits.Connect],
 			});
 		}
-
-		console.log(permissionOverwrites);
+		permissionOverwrites.push({
+			id: process.env.MUTED_ROLE!,
+			deny: [PermissionFlagsBits.Connect],
+		});
 
 		channel = await newState.guild.channels.create({
 			name: `${newState.member.user.username}'s channel`,

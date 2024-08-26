@@ -16,6 +16,12 @@ export async function channelInvite(interaction: ChatInputCommandInteraction, us
 
 	const member = await interaction.guild.members.fetch(user.id);
 
+	if (member.roles.cache.has(process.env.MUTED_ROLE!))
+		return await interaction.reply({
+			content: `<:FNIT_Stop:857617083185758208> Non puoi invitare un utente mutato.`,
+			ephemeral: true,
+		});
+
 	const channel = (await interaction.guild.channels.fetch(channelDoc._id)) as VoiceChannel;
 
 	await Promise.all([

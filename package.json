@@ -6,9 +6,10 @@
 	"scripts": {
 		"start": "node dist/index.js",
 		"build": "tsc && node dist/deploy-commands.js",
-		"test": " tsc && DOTENV_CONFIG_PATH='.env.test' npm run start",
+		"test": "tsc && DOTENV_CONFIG_PATH='.env.test' npm run start",
+		"test-prod": "tsc && DOTENV_CONFIG_PATH='.env' npm run start",
 		"commands": "tsc && node dist/deploy-commands.js",
-        "commands-test": "tsc && DOTENV_CONFIG_PATH='.env.test' node dist/deploy-commands.js"
+		"commands-test": "tsc && DOTENV_CONFIG_PATH='.env.test' node dist/deploy-commands.js"
 	},
 	"author": "Mettius",
 	"type": "module",
