@@ -6,8 +6,8 @@ export async function execute(client: Client) {
 	client.user!.setStatus(PresenceUpdateStatus.DoNotDisturb);
 
 	// INIT channels
-	client.logChannel = (await client.channels.fetch(process.env.LOG_CHANNEL!)) as TextChannel;
-	client.nuoveRichiesteChannel = (await client.channels.fetch(process.env.NUOVE_RICHIESTE!)) as TextChannel;
+	client.ticketLogChannel = (await client.channels.fetch(client.settings['ticket-log'])) as TextChannel;
+	client.nuoveRichiesteChannel = (await client.channels.fetch(client.settings['ticket-richieste'])) as TextChannel;
 
 	console.log(`Ready! Logged in as ${client.user!.tag}`);
 }

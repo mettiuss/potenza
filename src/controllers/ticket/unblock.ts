@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, User } from 'discord.js';
-import { formatUser } from '../../utils/utils.js';
+import { formatUser } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export async function ticketUnblock(interaction: ChatInputCommandInteraction, user: User) {
@@ -19,7 +19,7 @@ export async function ticketUnblock(interaction: ChatInputCommandInteraction, us
 			action: 'unblock',
 			at: new Date(),
 		}),
-		interaction.client.logChannel.send({
+		interaction.client.ticketLogChannel.send({
 			embeds: [
 				new PotenzaEmbedBuilder(interaction.guild)
 					.setTitle('**Utente sbloccato**')

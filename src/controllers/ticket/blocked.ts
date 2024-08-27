@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { formatCode, formatUser } from '../../utils/utils.js';
+import { formatCode, formatUser } from '../../utils/ticket.js';
 
 export async function ticketBlocked(interaction: ChatInputCommandInteraction) {
 	const docs = await interaction.client.mongo.block.find().toArray();

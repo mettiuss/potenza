@@ -9,7 +9,12 @@ export async function execute(oldState: VoiceState, newState: VoiceState) {
 }
 
 async function createChannel(oldState: VoiceState, newState: VoiceState) {
-	if (!newState.guild || !newState.channel || !newState.member || newState.channelId !== process.env.CHANNEL_VOICE)
+	if (
+		!newState.guild ||
+		!newState.channel ||
+		!newState.member ||
+		newState.channelId !== newState.client.settings['channel-voice']
+	)
 		return;
 
 	const channelDoc = await newState.client.mongo.channel.findOne({
@@ -22,14 +27,14 @@ async function createChannel(oldState: VoiceState, newState: VoiceState) {
 		channel = (await newState.guild.channels.fetch(channelDoc._id)) as VoiceBasedChannel;
 	} else {
 		let permissionOverwrites: OverwriteResolvable[] = [];
-		for (const staff_id of JSON.parse(process.env.STAFF_CHANNEL!)) {
+		for (const staff_id of newState.client.settings['channel-staff']) {
 			permissionOverwrites.push({
 				id: staff_id,
 				allow: [PermissionFlagsBits.Connect],
 			});
 		}
 		permissionOverwrites.push({
-			id: process.env.MUTED_ROLE!,
+			id: newState.client.settings['channel-mute'],
 			deny: [PermissionFlagsBits.Connect],
 		});
 
@@ -53,9 +58,9 @@ async function createChannel(oldState: VoiceState, newState: VoiceState) {
 async function leave(oldState: VoiceState, newState: VoiceState) {
 	if (
 		!oldState.channel ||
-		oldState.channel.parentId !== process.env.CHANNEL_CATEGORY ||
+		oldState.channel.parentId !== oldState.client.settings['channel-category'] ||
 		oldState.channel.members.size !== 0 ||
-		oldState.channel.id === process.env.CHANNEL_VOICE
+		oldState.channel.id === oldState.client.settings['channel-voice']
 	)
 		return;
 

@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalSubmitInteraction } from 'discord.js';
-import { formatUser } from '../../utils/utils.js';
+import { formatUser } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ModalSubmitInteraction) {
@@ -23,7 +23,7 @@ export default async function (interaction: ModalSubmitInteraction) {
 		.addProblemFields({ description, platform });
 
 	const nuoveRichiesteMessage = await interaction.client.nuoveRichiesteChannel.send({
-		content: `<@&659513332218331155>`,
+		content: interaction.client.settings['ticket-staff'].map((el: string) => `<@&${el}>`).join(', '),
 		embeds: [embed],
 		components: [
 			new ActionRowBuilder<ButtonBuilder>().addComponents(

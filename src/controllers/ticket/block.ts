@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, User } from 'discord.js';
-import { formatCode, formatUser } from '../../utils/utils.js';
+import { formatCode, formatUser } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export async function ticketBlock(interaction: ChatInputCommandInteraction, user: User, reason: string) {
@@ -26,7 +26,7 @@ export async function ticketBlock(interaction: ChatInputCommandInteraction, user
 			action: 'block',
 			at: new Date(),
 		}),
-		interaction.client.logChannel.send({
+		interaction.client.ticketLogChannel.send({
 			embeds: [
 				new PotenzaEmbedBuilder(interaction.guild)
 					.setTitle('**Utente bloccato**')

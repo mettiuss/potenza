@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, PermissionFlagsBits, User, VoiceChannel } from 'discord.js';
-import { formatCode, hasStaffPermission } from '../../utils/utils.js';
+import { formatCode, hasStaffPermission } from '../../utils/ticket.js';
 
 export async function channelKick(interaction: ChatInputCommandInteraction, user: User) {
 	if (!interaction.guild) return;
@@ -10,13 +10,13 @@ export async function channelKick(interaction: ChatInputCommandInteraction, user
 
 	if (!channelDoc)
 		return await interaction.reply({
-			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${process.env.CHANNEL_VOICE}> per creare il tuo.`,
+			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${interaction.client.settings['channel-voice']}> per creare il tuo.`,
 			ephemeral: true,
 		});
 
 	const member = await interaction.guild.members.fetch(user.id);
 
-	if (hasStaffPermission(member, process.env.STAFF_CHANNEL!))
+	if (hasStaffPermission(member, interaction.client.settings['channel-staff']))
 		return await interaction.reply({
 			content: `<:FNIT_Stop:857617083185758208> Non puoi espellere un membro dello staff.`,
 			ephemeral: true,

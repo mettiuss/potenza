@@ -6,7 +6,7 @@ import {
 	User,
 } from 'discord.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
-import { formatUser, getUserChannel } from '../../utils/utils.js';
+import { formatUser, fullTicketStaff, getUserChannel } from '../../utils/ticket.js';
 
 export async function ticketOpen(interaction: ChatInputCommandInteraction, user: User) {
 	if (!interaction.guild) return;
@@ -27,7 +27,7 @@ export async function ticketOpen(interaction: ChatInputCommandInteraction, user:
 		ticketChannel.send({
 			embeds: [new PotenzaEmbedBuilder(interaction.guild).newTicket(user.id)],
 		}),
-		interaction.client.logChannel.send({
+		interaction.client.ticketLogChannel.send({
 			embeds: [
 				new PotenzaEmbedBuilder(interaction.guild)
 					.setTitle('**Richiesta Supporto Aperta**')
@@ -65,13 +65,13 @@ export function createChannelCreateOptions(interaction: CommandInteraction | But
 			],
 		},
 	];
-	for (let id of JSON.parse(process.env.STAFF_TICKET!)) {
+	for (let id of fullTicketStaff(interaction.client)) {
 		permissionOverwrites.push({ id: id, allow: staffPerms });
 	}
 	return {
 		name: `ticket-${user.username}`,
 		topic: user.id,
-		parent: process.env.TICKET_CATEGORY,
+		parent: interaction.client.settings['ticket-category'],
 		permissionOverwrites: permissionOverwrites,
 	};
 }

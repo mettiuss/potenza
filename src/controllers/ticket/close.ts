@@ -9,7 +9,7 @@ import {
 	TextChannel,
 	User,
 } from 'discord.js';
-import { formatCode, formatUser, getUserChannel } from '../../utils/utils.js';
+import { formatCode, formatUser, getUserChannel } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 import discordTranscripts from 'discord-html-transcripts';
 import axios from 'axios';
@@ -73,7 +73,7 @@ export async function sendLogGetTranscript(
 		poweredBy: false,
 	});
 
-	const logMessage = await client.logChannel.send({
+	const logMessage = await client.ticketLogChannel.send({
 		embeds: [
 			new PotenzaEmbedBuilder(guild)
 				.setTitle('**Richiesta Supporto Chiusa**')
@@ -140,7 +140,7 @@ export async function ticketClose(interaction: ChatInputCommandInteraction, user
 			.addProblemFields(ticketDoc);
 
 		const nuoveRichiesteChannel = (await interaction.client.channels.fetch(
-			process.env.NUOVE_RICHIESTE!
+			interaction.client.settings['ticket-richieste']
 		)) as TextChannel;
 		const message = await nuoveRichiesteChannel.messages.fetch(ticketDoc.message);
 

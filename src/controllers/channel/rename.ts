@@ -9,7 +9,7 @@ export async function channelRename(interaction: ChatInputCommandInteraction, na
 
 	if (!channelDoc)
 		return await interaction.reply({
-			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${process.env.CHANNEL_VOICE}> per creare il tuo.`,
+			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${interaction.client.settings['channel-voice']}> per creare il tuo.`,
 			ephemeral: true,
 		});
 

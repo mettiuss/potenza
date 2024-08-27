@@ -6,14 +6,14 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
-import { formatCode, formatUser, getUserChannel, hasStaffPermission } from '../../utils/utils.js';
+import { formatCode, formatUser, fullTicketStaff, getUserChannel, hasStaffPermission } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 import { sendCloseMessage, sendLogGetTranscript } from '../../controllers/ticket/close.js';
 
 export default async function (interaction: ButtonInteraction) {
 	if (
 		!interaction.member ||
-		!hasStaffPermission(interaction.member, process.env.STAFF_TICKET!) ||
+		!hasStaffPermission(interaction.member, fullTicketStaff(interaction.client)) ||
 		!interaction.guild ||
 		!interaction.channel
 	)
@@ -114,7 +114,7 @@ export default async function (interaction: ButtonInteraction) {
 				.addProblemFields(ticketDoc);
 
 			const nuoveRichiesteChannel = (await interaction.client.channels.fetch(
-				process.env.NUOVE_RICHIESTE!
+				interaction.client.settings['ticket-richieste']
 			)) as TextChannel;
 			const message = await nuoveRichiesteChannel.messages.fetch(ticketDoc.message);
 

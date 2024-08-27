@@ -1,16 +1,20 @@
 import { ButtonInteraction } from 'discord.js';
-import { formatUser, hasStaffPermission } from '../../utils/utils.js';
+import { formatUser, hasStaffPermission } from '../../utils/ticket.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ButtonInteraction) {
-	if (!interaction.member || !hasStaffPermission(interaction.member, process.env.ELITE_STAFF_TICKET!)) return;
+	if (
+		!interaction.member ||
+		!hasStaffPermission(interaction.member, interaction.client.settings['ticket-staff-admin'])
+	)
+		return;
 
 	interaction.message.delete();
 
 	const ticketDoc = await interaction.client.mongo.ticket.findOneAndDelete({ message: interaction.message.id });
 	const user = ticketDoc ? await interaction.client.user.fetch(ticketDoc._id) : undefined;
 
-	interaction.client.logChannel.send({
+	interaction.client.ticketLogChannel.send({
 		embeds: [
 			new PotenzaEmbedBuilder(interaction.guild)
 				.setTitle('**Richiesta Supporto Ignorata**')

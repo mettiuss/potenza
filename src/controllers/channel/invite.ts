@@ -10,13 +10,13 @@ export async function channelInvite(interaction: ChatInputCommandInteraction, us
 
 	if (!channelDoc)
 		return await interaction.reply({
-			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${process.env.CHANNEL_VOICE}> per creare il tuo.`,
+			content: `<:FNIT_Stop:857617083185758208> Non possiedi nessun canale, entra in <#${interaction.client.settings['channel-voice']}> per creare il tuo.`,
 			ephemeral: true,
 		});
 
 	const member = await interaction.guild.members.fetch(user.id);
 
-	if (member.roles.cache.has(process.env.MUTED_ROLE!))
+	if (member.roles.cache.has(interaction.client.settings['channel-mute']))
 		return await interaction.reply({
 			content: `<:FNIT_Stop:857617083185758208> Non puoi invitare un utente mutato.`,
 			ephemeral: true,

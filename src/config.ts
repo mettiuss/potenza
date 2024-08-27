@@ -22,7 +22,11 @@ client.mongo = {
 	logs: mongoDb.collection('logs'),
 	channel: mongoDb.collection('channel'),
 	feedback: mongoDb.collection('feedback'),
+	settings: mongoDb.collection('settings'),
 };
+
+// Load Settings
+client.settings = await client.mongo.settings.findOne({ _id: 'settings' });
 
 // Load Commands
 client.commands = new Collection();

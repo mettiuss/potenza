@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction } from 'discord.js';
 
 import { EmbedBuilder, User } from 'discord.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
-import { formatCode } from '../../utils/utils.js';
+import { formatCode } from '../../utils/ticket.js';
 
 function subtractDays(date: Date, days: number): Date {
 	var dateOffset = 24 * 60 * 60 * 1000 * days;

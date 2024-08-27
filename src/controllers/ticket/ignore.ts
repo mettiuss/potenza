@@ -2,7 +2,7 @@ import { Message, PartialMessage } from 'discord.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export async function handleTicketMessageDelete(message: Message | PartialMessage) {
-	if (message.channelId != process.env.NUOVE_RICHIESTE) return;
+	if (message.channelId != message.client.settings['ticket-richieste']) return;
 
 	const ticketDoc = await message.client.mongo.ticket.findOneAndDelete({ message: message.id });
 
@@ -10,7 +10,7 @@ export async function handleTicketMessageDelete(message: Message | PartialMessag
 
 	const user = await message.client.user.fetch(ticketDoc._id);
 
-	message.client.logChannel.send({
+	message.client.ticketLogChannel.send({
 		embeds: [
 			new PotenzaEmbedBuilder(message.guild)
 				.setTitle('**Richiesta Supporto Ignorata**')

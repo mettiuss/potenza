@@ -1,10 +1,14 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle } from 'discord.js';
-import { formatUser, getUserChannel, hasStaffPermission } from '../../utils/utils.js';
+import { formatUser, fullTicketStaff, getUserChannel, hasStaffPermission } from '../../utils/ticket.js';
 import { createChannelCreateOptions } from '../../controllers/ticket/open.js';
 import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 
 export default async function (interaction: ButtonInteraction) {
-	if (!interaction.member || !hasStaffPermission(interaction.member, process.env.STAFF_TICKET!) || !interaction.guild)
+	if (
+		!interaction.member ||
+		!hasStaffPermission(interaction.member, fullTicketStaff(interaction.client)) ||
+		!interaction.guild
+	)
 		return;
 
 	const ticketDoc = await interaction.client.mongo.ticket.findOne({ message: interaction.message.id });
@@ -52,7 +56,7 @@ export default async function (interaction: ButtonInteraction) {
 				),
 			],
 		}),
-		interaction.client.logChannel.send({
+		interaction.client.ticketLogChannel.send({
 			embeds: [
 				new PotenzaEmbedBuilder(interaction.guild)
 					.setTitle('**Richiesta Supporto Aperta**')
