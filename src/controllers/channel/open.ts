@@ -18,7 +18,7 @@ export async function channelOpen(interaction: ChatInputCommandInteraction) {
 	await channel.permissionOverwrites.edit(interaction.guild.id, { Connect: true });
 
 	await interaction.reply({
-		content: `**Canale impostato come pubblico, gli utenti potranno entrare liberamente**`,
+		content: `**Canale impostato come pubblico**\n*Ora gli utenti potranno entrare liberamente senza essere invitati*`,
 		ephemeral: true,
 	});
 }

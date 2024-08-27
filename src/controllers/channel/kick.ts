@@ -28,9 +28,9 @@ export async function channelKick(interaction: ChatInputCommandInteraction, user
 	await interaction.reply({
 		content: `**L'utente <@${
 			member.id
-		}> è stato espulso dal canale, non potrà più rientrare se non reinvitato tramite il comando ${formatCode(
+		}> è stato espulso dal canale**\n*Non potrà più rientrare se non reinvitato tramite il comando ${formatCode(
 			'/channel invite'
-		)}**`,
+		)}*`,
 		ephemeral: true,
 	});
 }

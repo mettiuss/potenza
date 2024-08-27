@@ -41,7 +41,7 @@ export async function channelInvite(interaction: ChatInputCommandInteraction, us
 	]);
 
 	await interaction.reply({
-		content: `**L'utente <@${member.id}> è stato invitato nel canale, potrà entrare anche se il canale è privato**`,
+		content: `**L'utente <@${member.id}> è stato invitato nel canale**\n*Ora potrà sempre entrare nel canale anche qualora esso diventasse privato*`,
 		ephemeral: true,
 	});
 }

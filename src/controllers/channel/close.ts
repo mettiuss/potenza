@@ -19,7 +19,7 @@ export async function channelClose(interaction: ChatInputCommandInteraction) {
 	await channel.permissionOverwrites.edit(interaction.guild.id, { Connect: false });
 
 	await interaction.reply({
-		content: `**Canale impostato come privato, ora gli utenti potranno entrare solo se invitati con il comando ${formatCode(
+		content: `**Canale impostato come privato**\n*Ora gli utenti potranno entrare solo se invitati con il comando ${formatCode(
 			'/channel invite'
 		)}**`,
 		ephemeral: true,
