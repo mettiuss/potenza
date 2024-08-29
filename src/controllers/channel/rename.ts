@@ -15,7 +15,14 @@ export async function channelRename(interaction: ChatInputCommandInteraction, na
 
 	const channel = await interaction.guild.channels.fetch(channelDoc._id);
 
-	await interaction.guild.channels.edit(channel!, { name });
+	try {
+		await interaction.guild.channels.edit(channel!, { name });
+	} catch {
+		return await interaction.reply({
+			content: `<:FNIT_Stop:857617083185758208> Impossibile utilizzare il nome scelto, scegline un'altro`,
+			ephemeral: true,
+		});
+	}
 
 	await interaction.reply({
 		content: `**Nome canale modificato correttamente**`,
