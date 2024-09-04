@@ -69,7 +69,7 @@ export async function sendLogGetTranscript(
 	reason: string
 ) {
 	const attachment = await discordTranscripts.createTranscript(userChannel, {
-		saveImages: true,
+		saveImages: false,
 		poweredBy: false,
 	});
 
@@ -84,7 +84,9 @@ export async function sendLogGetTranscript(
 
 	const attachment_url = logMessage.attachments.at(0)!.url;
 
-	axios.get('https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url));
+	try {
+		axios.get('https://vindertech.itzmirko.it/file/?url=' + encodeURIComponent(attachment_url));
+	} catch {}
 
 	return attachment_url;
 }
