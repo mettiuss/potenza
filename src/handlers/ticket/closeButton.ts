@@ -36,7 +36,9 @@ export default async function (interaction: ButtonInteraction) {
 			ephemeral: true,
 		});
 
-	const modal = new ModalBuilder().setCustomId(`close-${ticketUser.id}`).setTitle('Chiusura ticket');
+	const id = `close-${ticketUser.id}-${Date.now().toString(36)}`;
+
+	const modal = new ModalBuilder().setCustomId(id).setTitle('Chiusura ticket');
 
 	// Create the text input components
 	const descriptionInput = new TextInputBuilder()
@@ -56,7 +58,7 @@ export default async function (interaction: ButtonInteraction) {
 	interaction
 		.awaitModalSubmit({
 			time: 5 * 60 * 1000,
-			filter: ({ user, customId }) => user.id === interaction.user.id && customId === `close-${ticketUser.id}`,
+			filter: ({ user, customId }) => user.id === interaction.user.id && customId === id,
 		})
 		.then(async (submitted) => {
 			if (executed || !submitted.guild) return;
