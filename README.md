@@ -1,6 +1,9 @@
 # Potenza
 
-Discord bot for the Official Fortnite Italia server.
+Discord bot for the Official Fortnite Italia server. It manages the support ticketing system and manages the custom voice channels feature.
+
+![ticket features showcase](assets/ticket_open.png)
+![custom voice channels features showcase](assets/custom_channels.png)
 
 ## Run Locally
 
