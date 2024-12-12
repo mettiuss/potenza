@@ -5,7 +5,8 @@ import prettier from 'prettier';
 export const data = new SlashCommandBuilder()
 	.setName('eval')
 	.setDescription(`Admin command`)
-	.addStringOption((input) => input.setName('code').setDescription('The code to execute').setRequired(true));
+	.addStringOption((input) => input.setName('code').setDescription('The code to execute').setRequired(true))
+	.setDMPermission(false);
 export async function execute(interaction: discord.ChatInputCommandInteraction) {
 	if (interaction.user.id !== '707165674845241344') return;
 

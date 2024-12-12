@@ -7,6 +7,7 @@ export const data = (
 	new SettingsSlashCommandBuilder()
 		.setName('settings')
 		.setDescription(`Modifica le impostazioni del bot`)
+		.setDMPermission(false)
 		.addSubcommand((subcommand) =>
 			subcommand.setName('list').setDescription('Lista di tutte le impostazioni del bot')
 		) as SettingsSlashCommandBuilder

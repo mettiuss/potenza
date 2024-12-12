@@ -55,7 +55,6 @@ export const data = new SlashCommandBuilder()
 				input.setName('utente').setDescription('Utente a cui si riferisce questa azione').setRequired(true)
 			)
 	)
-
 	.setDMPermission(false);
 export async function execute(interaction: ChatInputCommandInteraction) {
 	let data;

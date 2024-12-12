@@ -54,7 +54,7 @@ export function createChannelCreateOptions(interaction: CommandInteraction | But
 		PermissionsBitField.Flags.AttachFiles,
 	];
 	let permissionOverwrites = [
-		{ id: interaction.guild!.roles.everyone, deny: [PermissionsBitField.Flags.ViewChannel] },
+		{ id: interaction.guild!.id, deny: [PermissionsBitField.Flags.ViewChannel] },
 		{
 			id: user.id,
 			allow: [
