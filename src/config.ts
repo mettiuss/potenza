@@ -23,6 +23,7 @@ client.mongo = {
 	channel: mongoDb.collection('channel'),
 	feedback: mongoDb.collection('feedback'),
 	settings: mongoDb.collection('settings'),
+	templates: mongoDb.collection('templates'),
 };
 
 // Load Settings
