@@ -14,6 +14,14 @@ export async function ticketBlock(interaction: ChatInputCommandInteraction, user
 
 	await interaction.deferReply();
 
+	if (!interaction.client.ticketLogChannel) {
+		return interaction.reply({
+			content:
+				'<:FNIT_Stop:857617083185758208> canale di log non definito, utilizza `/settings canale-ticket-log` per definirne uno.',
+			ephemeral: true,
+		});
+	}
+
 	await Promise.all([
 		interaction.client.mongo.block.insertOne({
 			_id: user.id,

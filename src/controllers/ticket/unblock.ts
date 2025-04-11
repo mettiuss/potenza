@@ -10,6 +10,14 @@ export async function ticketUnblock(interaction: ChatInputCommandInteraction, us
 			ephemeral: true,
 		});
 
+	if (!interaction.client.ticketLogChannel) {
+		return interaction.reply({
+			content:
+				'<:FNIT_Stop:857617083185758208> canale di log non definito, utilizza `/settings canale-ticket-log` per definirne uno.',
+			ephemeral: true,
+		});
+	}
+
 	await interaction.deferReply();
 
 	await Promise.all([

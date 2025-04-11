@@ -5,8 +5,8 @@ declare module 'discord.js' {
 	export interface Client {
 		commands: Collection<unknown, any>;
 		mongo: Collection<Document>;
-		ticketLogChannel: TextChannel;
-		nuoveRichiesteChannel: TextChannel;
+		ticketLogChannel: TextChannel | null;
+		nuoveRichiesteChannel: TextChannel | null;
 		settings: any;
 	}
 }

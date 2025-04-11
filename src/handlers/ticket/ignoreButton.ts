@@ -5,7 +5,8 @@ import { PotenzaEmbedBuilder } from '../../utils/PotenzaEmbedBuilder.js';
 export default async function (interaction: ButtonInteraction) {
 	if (
 		!interaction.member ||
-		!hasStaffPermission(interaction.member, interaction.client.settings['ticket-staff-admin'])
+		!hasStaffPermission(interaction.member, interaction.client.settings['ticket-staff-admin']) ||
+		!interaction.client.ticketLogChannel
 	)
 		return;
 

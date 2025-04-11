@@ -73,7 +73,7 @@ export async function sendLogGetTranscript(
 		poweredBy: false,
 	});
 
-	const logMessage = await client.ticketLogChannel.send({
+	const logMessage = await client.ticketLogChannel!.send({
 		embeds: [
 			new PotenzaEmbedBuilder(guild)
 				.setTitle('**Richiesta Supporto Chiusa**')
@@ -102,6 +102,14 @@ export async function ticketClose(interaction: ChatInputCommandInteraction, user
 			)} non possiede nessun ticket aperto.`,
 			ephemeral: true,
 		});
+
+	if (!interaction.client.ticketLogChannel) {
+		return interaction.reply({
+			content:
+				'<:FNIT_Stop:857617083185758208> canale di log non definito, utilizza `/settings canale-ticket-log` per definirne uno.',
+			ephemeral: true,
+		});
+	}
 
 	await interaction.deferReply({ ephemeral: true });
 

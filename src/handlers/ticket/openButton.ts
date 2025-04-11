@@ -27,6 +27,14 @@ export default async function (interaction: ButtonInteraction) {
 		});
 	}
 
+	if (!interaction.client.ticketLogChannel) {
+		return interaction.reply({
+			content:
+				'<:FNIT_Stop:857617083185758208> canale di log non definito, utilizza `/settings canale-ticket-log` per definirne uno.',
+			ephemeral: true,
+		});
+	}
+
 	await interaction.reply({
 		content: '<a:A_FNIT_Loading:1249346325946830971>',
 		ephemeral: true,

@@ -10,11 +10,19 @@ export async function handleTicketMessageDelete(message: Message | PartialMessag
 
 	const user = await message.client.user.fetch(ticketDoc._id);
 
-	message.client.ticketLogChannel.send({
-		embeds: [
-			new PotenzaEmbedBuilder(message.guild)
-				.setTitle('**Richiesta Supporto Ignorata**')
-				.addWhoFields(undefined, user?.id),
-		],
-	});
+	if (message.client.ticketLogChannel) {
+		message.client.ticketLogChannel.send({
+			embeds: [
+				new PotenzaEmbedBuilder(message.guild)
+					.setTitle('**Richiesta Supporto Ignorata**')
+					.addWhoFields(undefined, user?.id),
+			],
+		});
+	} else {
+		if (message.channel.isSendable()) {
+			message.channel.send(
+				'<:FNIT_Stop:857617083185758208> canale di log non definito, utilizza `/settings canale-ticket-log` per definirne uno.'
+			);
+		}
+	}
 }
